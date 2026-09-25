@@ -604,6 +604,55 @@ body.writing{overflow-x:hidden}
 .backup-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;border-color:color-mix(in srgb,var(--accent-2) 45%,var(--line))}
 .card.pack h3{font-family:var(--serif)}
 
+/* ================= Imágenes ================= */
+.rb-grid{columns:4 170px;column-gap:10px}
+.rb-item{display:block;width:100%;margin:0 0 10px;padding:0;border:0;border-radius:12px;overflow:hidden;background:var(--surface-2);position:relative;break-inside:avoid;cursor:zoom-in}
+.rb-item img{display:block;width:100%;height:auto}
+.rb-item .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:12.5px;font-weight:600;text-align:left}
+.rb-empty{display:flex;align-items:center;gap:14px;padding:22px;border:1.5px dashed var(--line);border-radius:14px;cursor:pointer;background:var(--surface)}
+.rb-empty:hover,body.dropping .rb-empty,body.dropping .rb-grid{border-color:var(--accent);outline:2px dashed var(--accent);outline-offset:4px}
+.rb-empty .ico{width:28px;height:28px;color:var(--accent);flex:none}
+.rb-char{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none;margin-bottom:8px}
+.rb-char .av{box-shadow:none}
+.rb-strip{display:flex;gap:6px;flex:1;overflow:hidden}
+.rb-strip img{width:52px;height:52px;object-fit:cover;border-radius:8px}
+.rv-img{position:relative;background:var(--surface-2);border-radius:14px;overflow:hidden;display:grid;place-items:center;max-height:68vh}
+.rv-img img{max-width:100%;max-height:68vh;display:block}
+.rv-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center}
+.rv-nav.prev{left:10px}.rv-nav.next{right:10px}.rv-nav.next .ico{transform:rotate(180deg)}
+.crop-box{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.crop-circle{width:150px;height:150px;border-radius:50%;background-repeat:no-repeat;background-color:var(--surface-2);box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--accent);cursor:grab;touch-action:none;flex:none}
+.crop-circle:active{cursor:grabbing}
+.ph-emo{position:relative;cursor:pointer}
+.ph-x{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:11px;display:grid;place-items:center}
+.av-stage img{object-fit:contain}
+
+/* ================= Sinónimos y ayuda ================= */
+.alts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 8px}
+.alts > span{font-size:12px;font-weight:700;color:var(--muted);margin-right:2px}
+.alt{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-family:var(--serif);font-size:14.5px;color:var(--ink)}
+.alt:hover{border-color:var(--accent);color:var(--accent)}
+.alt.rm{font-family:var(--ui);font-size:12px;font-weight:700;color:#B2413A;border-style:dashed}
+.alt.more{font-family:var(--ui);font-size:12px;font-weight:700;color:var(--muted);border-style:dashed}
+.th-res{margin-top:14px;min-height:60px}
+.th-res h4{font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px}
+.help{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--accent) 55%,var(--line));background:var(--surface);color:var(--accent);font:700 11px/1 var(--ui);padding:0;vertical-align:middle;cursor:help;margin-left:4px;flex:none;text-transform:none;letter-spacing:0}
+.help:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.help.big{width:22px;height:22px;font-size:13px}
+#help-pop{position:fixed;z-index:90;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.45);padding:14px 16px;max-height:70vh;overflow-y:auto;font-size:14px;line-height:1.55;animation:rise .18s ease}
+#help-pop.sheet{left:12px!important;right:12px;width:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px));top:auto!important;max-height:60vh}
+.hp-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.hp-h b{flex:1;font-family:var(--serif);font-size:18px;font-weight:600}
+#help-pop p{margin:0 0 10px}
+#help-pop dl{margin:0}
+#help-pop dt{font-weight:700;margin-top:8px}
+#help-pop dd{margin:2px 0 0;color:var(--muted)}
+.hp-ex{display:block;font-family:var(--serif);font-style:italic;color:var(--ink);margin-top:4px;padding-left:10px;border-left:2px solid var(--accent-2)}
+.hp-q{background:var(--surface-2);border-radius:10px;padding:8px 12px;font-size:13.5px}
+.hp-q ul{margin:4px 0 0;padding-left:18px}
+.ed-cat{cursor:pointer}
+@media (max-width:620px){.hide-sm{display:none}}
+
 </style>
 </head>
 <body data-genre="tinta">
@@ -638,7 +687,7 @@ body.writing{overflow-x:hidden}
 "use strict";
 /* ================= INK · Fase 1 ================= */
 const LS_KEY = "ink:v1:state", LS_DIRTY = "ink:v1:dirty";
-const COLLS = ["projects", "ideas", "chapters", "characters", "relations"];
+const COLLS = ["projects", "ideas", "chapters", "characters", "relations", "images"];
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -723,7 +772,7 @@ const LOGO = (h = 30) => `<span style="display:inline-flex;align-items:center;ga
 
 /* ================= Almacenamiento local + sincronización ================= */
 const Store = {
-  state: { projects: {}, ideas: {}, chapters: {}, characters: {}, relations: {}, meta: {} },
+  state: { projects: {}, ideas: {}, chapters: {}, characters: {}, relations: {}, images: {}, meta: {} },
   dirty: new Set(),
   base: null,
   status: "local",
@@ -745,11 +794,21 @@ const Store = {
   persist() {
     clearTimeout(this._pT);
     try {
-      localStorage.setItem(LS_KEY, JSON.stringify(this.state));
+      const { images, ...rest } = this.state; localStorage.setItem(LS_KEY, JSON.stringify(rest));
+      this.persistImages();
       localStorage.setItem(LS_DIRTY, JSON.stringify([...this.dirty]));
     } catch (e) {
       if (!this._warned) { this._warned = true; toast("Este dispositivo se quedó sin espacio local. Descarga un respaldo desde Ajustes."); }
     }
+  },
+  persistImages() {
+    const sig = this._imgSig || (this._imgSig = {});
+    for (const [id, r] of Object.entries(this.state.images || {})) { const u = r.updatedAt || 0; if (sig[id] !== u) { sig[id] = u; IDB.set("img:" + id, r).catch(() => { sig[id] = -1; }); } }
+  },
+  async loadImages() {
+    const all = await IDB.all("img:"); let n = 0;
+    for (const r of all) { if (!r || !r.id) continue; const l = this.state.images[r.id]; if (!l || (r.updatedAt || 0) > (l.updatedAt || 0)) { this.state.images[r.id] = r; n++; } (this._imgSig || (this._imgSig = {}))[r.id] = r.updatedAt || 0; }
+    return n;
   },
   persistSoon() { clearTimeout(this._pT); this._pT = setTimeout(() => this.persist(), 500); },
 
@@ -986,12 +1045,12 @@ Views.home = () => {
     </section>
     <div class="home-grid">
       <div class="card">
-        <h3>Tu semana</h3>
+        <h3>Tu semana ${helpBtn("home.semana")}</h3>
         <div class="week">${week.map((d, i) => `<div class="d ${d.w ? "on" : ""} ${d.today ? "today" : ""}"><i title="${d.w ? fmt(d.w) + " palabras" : ""}">${d.w ? "✓" : ""}</i>${letters[i]}</div>`).join("")}</div>
         <p class="muted" style="margin:0">${weekMsg}${weekWords ? ` Llevas ${fmt(weekWords)} palabras en total.` : ""}</p>
       </div>
       ${rescue ? `<div class="card rescue" ${rescue.projectId && Store.get("projects", rescue.projectId) ? `data-genre="${Store.get("projects", rescue.projectId).genre}"` : ""}>
-        <h3>Una idea para rescatar</h3>
+        <h3>Una idea para rescatar ${helpBtn("home.rescate")}</h3>
         <div class="muted" style="font-size:13px">${TYPES[rescue.type]?.label || "Idea"} que escribiste ${ago(rescue.createdAt)}${rescue.projectId && Store.get("projects", rescue.projectId) ? ` para «${esc(Store.get("projects", rescue.projectId).title)}»` : ""}</div>
         <blockquote>${esc(rescue.text)}</blockquote>
         <a class="btn small" href="#/i/${rescue.id}">${ico("sprout")} Retomarla</a>
@@ -1022,7 +1081,7 @@ Views.inbox = () => {
   f.sel = new Set([...f.sel].filter((id) => items.some((i) => i.id === id)));
   const shown = items.slice(0, 150);
   return { genre: "tinta", html: `
-    <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:240px"><h1 class="page-title">Bandeja</h1>
+    <div class="row" style="align-items:flex-end"><div style="flex:1;min-width:240px"><h1 class="page-title">Bandeja ${helpBtn("bandeja", "big")}</h1>
     <p class="lede" style="margin-bottom:18px">Aquí llegan las ideas que todavía no tienen libro. Revísalas una por una y dales un hogar.</p></div>
     <button class="btn small" data-act="keep-import">${ico("upload")} Importar de Google Keep</button></div>
     ${all.length > 6 || tags.length ? `<div class="toolbar"><input class="input" type="search" placeholder="Buscar en la Bandeja" value="${esc(f.q)}" data-act="ib-search" aria-label="Buscar">
@@ -1052,11 +1111,11 @@ Views.project = (id, tab = "capitulos") => {
   if (!p) return { genre: "tinta", html: `<div class="empty"><h3>Este libro ya no existe</h3><p>Pudo haberse eliminado en otro dispositivo.</p><a class="btn" href="#/libros">Ir a Libros</a></div>` };
   const parent = p.parentId && Store.get("projects", p.parentId);
   const unitP = Data.unitName(p, true);
-  const tabs = [["capitulos", unitP], ["ideas", "Ideas"], ["personajes", "Personajes"], ["ajustes", "Ajustes"]];
+  const tabs = [["capitulos", unitP], ["ideas", "Ideas"], ["personajes", "Personajes"], ["referencias", "Tablero"], ["ajustes", "Ajustes"]];
   let body = "";
   if (tab === "capitulos") {
     const cs = Data.chapters(p.id);
-    body = `${progressHTML(p)}
+    body = `<div class="row" style="justify-content:flex-end;margin:-10px 0 6px"><span class="muted" style="font-size:12.5px">Estados</span>${helpBtn("libro.estados")}</div>${progressHTML(p)}
       <div class="chapters">${cs.map((c, i) => {
         const pct = c.target ? Math.min(100, Math.round(((c.words || 0) / c.target) * 100)) : 0;
         return `<div class="chap">
@@ -1085,6 +1144,10 @@ Views.project = (id, tab = "capitulos") => {
       ${ideas.length ? `<div class="ideas">${ideas.map((i) => ideaCard(i)).join("")}</div>` : `<div class="empty"><h3>${f.type || f.q ? "Nada por aquí" : "Este libro aún no tiene ideas"}</h3><p>${f.type || f.q ? "Prueba con otro filtro o búsqueda." : "Frases, escenas, voces de personajes: todo lo que anotes para este libro vivirá aquí."}</p></div>`}`;
   } else if (tab === "personajes") {
     body = castHTML(p);
+  } else if (tab === "referencias") {
+    const withRefs = Data.characters(p.id).map((c) => [c, Img.of("char", c.id)]).filter(([, l]) => l.length);
+    body = `<p class="lede" style="margin:0">El tablero visual de tu libro: lugares, atmósfera, mapas, objetos, época. Todo lo que te ayude a ver tu mundo.</p>` + refBoardHTML("project", p.id, { help: "libro.tablero", title: "Tablero del libro", hint: "Lugares, atmósfera, mapas, objetos, época." }).replace('style="margin-top:34px"', 'style="margin-top:18px"')
+      + (withRefs.length ? `<div class="section-h"><h2>Referencias de tus personajes</h2></div>${withRefs.map(([c, l]) => `<a class="rb-char" href="#/pj/${c.id}">${avatarHTML(c, 40)}<b>${esc(c.name)}</b><span class="rb-strip">${l.slice(0, 8).map((i) => `<img src="${i.data}" alt="" loading="lazy">`).join("")}</span><span class="muted">${l.length}</span></a>`).join("")}` : "");
   } else {
     const others = Data.projects().filter((x) => x.id !== p.id);
     body = `<div class="settings">
@@ -1096,9 +1159,9 @@ Views.project = (id, tab = "capitulos") => {
         <div class="field"><label for="pt">Título</label><input id="pt" class="input" value="${esc(p.title)}" data-act="p-field" data-f="title" data-p="${p.id}"></div>
         <div class="meta-grid">
           <div class="field"><label for="pg">Género y atmósfera</label><select id="pg" class="input" data-act="p-field" data-f="genre" data-p="${p.id}">${Object.entries(GENRES).map(([k, x]) => `<option value="${k}" ${k === p.genre ? "selected" : ""}>${x.label}</option>`).join("")}</select></div>
-          <div class="field"><label for="pk">Tipo</label><select id="pk" class="input" data-act="p-field" data-f="kind" data-p="${p.id}"><option value="novela" ${p.kind !== "cuento" ? "selected" : ""}>Novela (con capítulos)</option><option value="cuento" ${p.kind === "cuento" ? "selected" : ""}>Cuento (con secciones)</option></select></div>
+          <div class="field"><label for="pk">Tipo ${helpBtn("libro.tipo")}</label><select id="pk" class="input" data-act="p-field" data-f="kind" data-p="${p.id}"><option value="novela" ${p.kind !== "cuento" ? "selected" : ""}>Novela (con capítulos)</option><option value="cuento" ${p.kind === "cuento" ? "selected" : ""}>Cuento (con secciones)</option></select></div>
         </div>
-        <div class="field"><label for="pp">Es continuación de</label><select id="pp" class="input" data-act="p-field" data-f="parentId" data-p="${p.id}"><option value="">Ninguno, es una historia nueva</option>${others.map((o) => `<option value="${o.id}" ${o.id === p.parentId ? "selected" : ""}>${esc(o.title)}</option>`).join("")}</select></div>
+        <div class="field"><label for="pp">Es continuación de ${helpBtn("libro.secuela")}</label><select id="pp" class="input" data-act="p-field" data-f="parentId" data-p="${p.id}"><option value="">Ninguno, es una historia nueva</option>${others.map((o) => `<option value="${o.id}" ${o.id === p.parentId ? "selected" : ""}>${esc(o.title)}</option>`).join("")}</select></div>
         <div class="field" style="margin:0"><label for="pd">Sinopsis breve</label><textarea id="pd" class="input" rows="3" data-act="p-field" data-f="synopsis" data-p="${p.id}" placeholder="¿De qué trata, en dos o tres líneas?">${esc(p.synopsis || "")}</textarea></div>
       </div>
       <div class="card"><h3>Eliminar libro</h3><p>Sus ${unitP.toLowerCase()} y personajes se eliminan. Sus ideas no se pierden: pasan a la Bandeja.</p><button class="btn danger" data-act="del-project" data-p="${p.id}">${ico("trash")} Eliminar «${esc(p.title)}»</button></div>
@@ -1121,6 +1184,7 @@ Views.idea = (id) => {
   return { genre: p ? p.genre : "tinta", html: `
     <div class="idea-ed">
       <div class="row" style="margin-bottom:18px"><a class="btn ghost small" href="${backHref}">${ico("back")} ${p ? esc(p.title) : "Bandeja"}</a><span class="spacer"></span><span class="muted" style="font-size:13px" id="idea-saved">Creada ${ago(i.createdAt)}</span></div>
+      <div class="row" style="gap:6px;margin-bottom:8px"><span class="lbl" style="margin:0">Tipo de idea</span>${helpBtn("idea.tipos")}</div>
       ${typeChips("idea-type", i.type)}
       <textarea class="write" id="idea-text" data-act="idea-text" data-id="${i.id}" spellcheck="true" lang="es" placeholder="Desarrolla tu idea…">${esc(i.text)}</textarea>
       ${i.origin ? `<div class="origin">Nació como ${TYPES[i.origin.type]?.label.toLowerCase() || "idea"} ${ago(i.origin.at)}: <q>${esc((i.origin.text || "").slice(0, 280))}${(i.origin.text || "").length > 280 ? "…" : ""}</q></div>` : ""}
@@ -1151,7 +1215,7 @@ Views.chapter = (id) => {
         <span class="bk">${p ? esc(p.title) : ""}</span><span class="spacer"></span>
         <select data-act="ch-status" data-id="${c.id}" aria-label="Estado">${Object.entries(STATUS).map(([k, l]) => `<option value="${k}" ${k === (c.status || "pendiente") ? "selected" : ""}>${l}</option>`).join("")}</select>
         <span class="wc" id="wc"></span>
-        ${Ed.on ? `<button class="btn small" data-ed-act="open">Sugerencias <b id="ed-count" class="count-b">0</b></button><button class="btn small primary" data-ed-act="exit">${ico("pen")} Volver a escribir</button>` : `<button class="btn small ghost ed-btn" data-act="review" title="Revisar el texto">${ico("check")} Revisar</button>
+        ${Ed.on ? `<button class="btn small" data-ed-act="open">Sugerencias <b id="ed-count" class="count-b">0</b></button><button class="btn small primary" data-ed-act="exit">${ico("pen")} Volver a escribir</button>` : `<button class="btn small ghost ed-btn" data-act="thes" title="Sinónimos de la palabra seleccionada">Aa <span class="hide-sm">Sinónimos</span></button><button class="btn small ghost ed-btn" data-act="review" title="Revisar el texto">${ico("check")} <span class="hide-sm">Revisar</span></button>
         <button class="icon-btn" data-act="drawer" aria-label="Ideas de este libro" title="Ideas">${ico("bulb")}</button>`}
         <button class="icon-btn" data-act="focus" aria-label="Modo enfoque" title="Modo enfoque">${ico("focus")}</button>
         <button class="icon-btn" data-act="theme-toggle" aria-label="Cambiar claro u oscuro" title="Claro u oscuro">${ico(isDark() ? "sun" : "moon")}</button>
@@ -1184,7 +1248,7 @@ Views.settings = () => {
     <div class="settings">
       <div class="card"><h3>Apariencia</h3><p>El modo oscuro usa tonos cálidos pensados para escribir de noche sin cansar la vista.</p>
         <div class="seg" role="group" aria-label="Tema">${[["auto", "Automático"], ["light", "Claro"], ["dark", "Oscuro"]].map(([k, l]) => `<button data-act="theme" data-v="${k}" aria-pressed="${t === k}">${l}</button>`).join("")}</div></div>
-      <div class="card"><h3>Sincronización</h3>
+      <div class="card"><h3>Sincronización ${helpBtn("ajustes.sync")}</h3>
         ${window.claude && window.claude.use ? `<p>${Store.base ? "Tus libros e ideas se guardan en tu cuenta de Claude y aparecen en tu celular y tu computadora. Si te quedas sin conexión, INK guarda todo en el dispositivo y lo sincroniza al volver." : "En esta vista, INK guarda todo en este dispositivo."}</p>
           <div class="sync" data-s="${Store.status}" style="padding:0"><i></i><span>${SYNC_TEXT[Store.status]}</span></div>
           <p style="margin-top:12px">¿Te vas a tu propia versión de INK? Descarga un respaldo aquí abajo y restáuralo en la nueva.</p>`
@@ -1193,9 +1257,9 @@ Views.settings = () => {
           <div class="row"><button class="btn small" data-act="sb-now">Sincronizar ahora</button><button class="btn small ghost" data-act="sb-setup">Cambiar conexión</button><button class="btn small ghost danger" data-act="sb-out">Cerrar sesión</button></div>`
         : `<p>Ahora INK guarda todo solo en este dispositivo. Conéctalo a tu propio proyecto de Supabase para tenerlo en tu celular y tu computadora sin depender de nadie.</p><button class="btn primary" data-act="sb-setup">Configurar mi nube</button>`}</div>
       <div class="card"><h3>Sprites privados</h3><p>${SPR_META ? "Tu paquete de sprites está cargado en este dispositivo." : "Aún no hay sprites en este dispositivo."} ${!(window.claude && window.claude.use) ? "El archivo ink-sprites.json no se publica con la app; se guarda en tu nube privada." : ""}</p>${window.claude && window.claude.use ? "" : `<label class="btn small">${ico("upload")} Cargar paquete de sprites<input type="file" accept=".json,application/json" class="sr" data-act="sprite-pack"></label>`}</div>
-      <div class="card"><h3>Respaldo</h3><p>Descarga una copia de todo tu trabajo. Puedes restaurarla en cualquier momento; lo que restaures se combina con lo que ya tienes.</p>
+      <div class="card"><h3>Respaldo ${helpBtn("ajustes.respaldo")}</h3><p>Descarga una copia de todo tu trabajo. Puedes restaurarla en cualquier momento; lo que restaures se combina con lo que ya tienes.</p>
         <div class="row"><button class="btn" data-act="export">${ico("download")} Descargar respaldo</button><label class="btn">${ico("upload")} Restaurar respaldo<input type="file" accept="application/json,.json" class="sr" data-act="import"></label></div></div>
-      <div class="card"><h3>Google Keep</h3><p>Trae tus notas de Keep a la Bandeja. Si una etiqueta de Keep coincide con el título de un libro, la nota va directo a ese libro.</p><button class="btn" data-act="keep-import">${ico("upload")} Importar de Google Keep</button></div>
+      <div class="card"><h3>Google Keep ${helpBtn("ajustes.keep")}</h3><p>Trae tus notas de Keep a la Bandeja. Si una etiqueta de Keep coincide con el título de un libro, la nota va directo a ese libro.</p><button class="btn" data-act="keep-import">${ico("upload")} Importar de Google Keep</button></div>
       <div class="card"><h3>Tu progreso</h3><p style="margin:0">${fmt(total)} palabras escritas en ${Data.projects().length} ${Data.projects().length === 1 ? "libro" : "libros"}, ${fmt(Store.list("ideas").length)} ideas guardadas y ${days} ${days === 1 ? "día" : "días"} de escritura registrados.</p></div>
       <div class="card" style="display:flex;align-items:center;gap:18px"><div style="color:var(--ink)">${LOGO(34)}</div><p style="margin:0">Fase 2.3: libros, ideas, bandeja, sala de escritura, personajes con avatar, relaciones, versiones, personajes en escena y hojas en PDF. Incluye el Modo Editor, la exportación del libro en PDF y la importación de Google Keep.</p></div>
     </div>` };
@@ -1289,7 +1353,7 @@ function castHTML(p) {
   if (!cs.length) return head + `<div class="empty"><div class="faces-empty">${["A", "M", "L"].map((l, i) => `<span style="background:${CHAR_COLORS[i * 3]}">${l}</span>`).join("")}</div><h3>Tu elenco empieza aquí</h3><p>Crea tu primer personaje. Empieza solo con un nombre; lo demás lo vas descubriendo mientras escribes.</p>${anc.length ? `<p>Como este libro continúa «${esc(anc[0].title)}», también puedes traer personajes de ahí.</p>` : ""}</div>`;
   if (mode === "red") return head + graphHTML(p);
   const groups = Object.keys(ROLES).map((r) => [r, cs.filter((c) => (c.role || "secundario") === r)]).filter(([, l]) => l.length);
-  return head + groups.map(([r, l]) => `<div class="section-h" style="margin-top:22px"><h2>${ROLES[r].plural}</h2><span class="muted">${l.length}</span></div><div class="cast">${l.map(charCard).join("")}</div>`).join("");
+  return head + groups.map(([r, l]) => `<div class="section-h" style="margin-top:22px"><h2>${ROLES[r].plural} ${r === "protagonista" ? helpBtn("pers.roles") : ""}</h2><span class="muted">${l.length}</span></div><div class="cast">${l.map(charCard).join("")}</div>`).join("");
 }
 
 /* ---------- Red de relaciones ---------- */
@@ -1373,11 +1437,11 @@ Views.character = (id) => {
   const p = Store.get("projects", c.projectId);
   const open = App.openSecs;
   const field = ([f, label, kind, ph]) => `<div class="field"><label for="cf-${f}">${label}</label>${kind === "area" ? `<textarea id="cf-${f}" class="input grow" rows="2" data-cf="${f}" placeholder="${esc(ph)}" spellcheck="true" lang="es">${esc(c[f] || "")}</textarea>` : `<input id="cf-${f}" class="input" data-cf="${f}" value="${esc(c[f] || "")}" placeholder="${esc(ph)}">`}</div>`;
-  const temperHTML = () => `<div class="temper">${TEMPER.map(([k, l, r]) => { const v = c.temper?.[k]; return `<div class="tp"><span>${l}</span><input type="range" min="0" max="100" step="5" value="${v ?? 50}" data-cf="temper.${k}" aria-label="${l} a ${r}" class="${v == null ? "unset" : ""}"><span>${r}</span></div>`; }).join("")}<p class="muted" style="font-size:12.5px;margin:4px 0 0">Mueve solo las barras que te sirvan; las demás quedan sin definir.</p></div>`;
+  const temperHTML = () => `<div class="temper"><div class="row" style="gap:6px"><span class="lbl" style="margin:0">Temperamento</span>${helpBtn("pers.temper")}</div>${TEMPER.map(([k, l, r]) => { const v = c.temper?.[k]; return `<div class="tp"><span>${l}</span><input type="range" min="0" max="100" step="5" value="${v ?? 50}" data-cf="temper.${k}" aria-label="${l} a ${r}" class="${v == null ? "unset" : ""}"><span>${r}</span></div>`; }).join("")}<p class="muted" style="font-size:12.5px;margin:4px 0 0">Mueve solo las barras que te sirvan; las demás quedan sin definir.</p></div>`;
   const linkedIdeas = (type) => { const l = Data.charIdeas(c.id, type); return `<div class="linked"><div class="lh">${TYPES[type].g} Ideas tipo ${TYPES[type].label} de ${esc(c.name || "este personaje")}</div>${l.length ? l.map((i) => `<a class="li" href="#/i/${i.id}">${esc(i.text.slice(0, 220))}${i.text.length > 220 ? "…" : ""}</a>`).join("") : `<p class="muted" style="margin:4px 0 0;font-size:13.5px">Aún no hay. Al anotar una idea, elige a ${esc(c.name || "este personaje")} en "¿De quién?".</p>`}<button class="btn small ghost" data-act="capture" data-p="${c.projectId}" data-char="${c.id}" data-type="${type}">${ico("plus")} Anotar ${TYPES[type].label.toLowerCase()}</button></div>`; };
   const secs = CHAR_SECTIONS.map((s) => {
     const filled = s.f.filter(([f]) => (c[f] || "").trim()).length + (s.temper && c.temper && Object.keys(c.temper).length ? 1 : 0) + (s.ideas ? Data.charIdeas(c.id, s.ideas).length : 0);
-    return `<details class="sec" data-sec="${s.k}" ${open.has(s.k) ? "open" : ""}><summary><span class="st">${s.t}</span>${filled ? `<span class="done" title="Tiene contenido"></span>` : ""}<span class="sd">${s.d}</span></summary><div class="sb">${s.f.map(field).join("")}${s.temper ? temperHTML() : ""}${s.ideas ? linkedIdeas(s.ideas) : ""}</div></details>`;
+    return `<details class="sec" data-sec="${s.k}" ${open.has(s.k) ? "open" : ""}><summary><span class="st">${s.t} ${helpBtn("sec." + s.k)}</span>${filled ? `<span class="done" title="Tiene contenido"></span>` : ""}<span class="sd">${s.d}</span></summary><div class="sb">${s.f.map(field).join("")}${s.temper ? temperHTML() : ""}${s.ideas ? linkedIdeas(s.ideas) : ""}</div></details>`;
   }).join("");
   const rels = Data.relationsOf(c.id);
   const lin = Data.lineage(c);
@@ -1393,24 +1457,25 @@ Views.character = (id) => {
           <div class="name-row"><input class="ch-name" data-cf="name" value="${esc(c.name || "")}" placeholder="Nombre" aria-label="Nombre"><button class="btn small ghost" data-act="name-ideas" title="Ideas de nombres">✦ Ideas</button></div>
           <input class="ch-sum" data-cf="summary" value="${esc(c.summary || "")}" placeholder="En una línea: quién es y qué lo define" aria-label="Resumen en una línea">
           <div class="id-grid">
-            <div class="field"><label for="cf-role">Rol</label><select id="cf-role" class="input" data-cf="role">${Object.entries(ROLES).map(([k, r]) => `<option value="${k}" ${k === (c.role || "secundario") ? "selected" : ""}>${r.label}</option>`).join("")}</select></div>
+            <div class="field"><label for="cf-role">Rol ${helpBtn("pers.roles")}</label><select id="cf-role" class="input" data-cf="role">${Object.entries(ROLES).map(([k, r]) => `<option value="${k}" ${k === (c.role || "secundario") ? "selected" : ""}>${r.label}</option>`).join("")}</select></div>
             <div class="field"><label for="cf-age">Edad</label><input id="cf-age" class="input" data-cf="age" value="${esc(c.age || "")}" placeholder="Ej. 17 o 'sin edad'"></div>
             <div class="field"><label for="cf-occ">Oficio o lugar en el mundo</label><input id="cf-occ" class="input" data-cf="occupation" value="${esc(c.occupation || "")}" placeholder="Ej. campanera del monasterio"></div>
-            <div class="field"><label for="cf-al">Apodos y otros nombres</label><input id="cf-al" class="input" data-cf="aliases" value="${esc((c.aliases || []).join(", "))}" placeholder="Separados por comas"></div>
+            <div class="field"><label for="cf-al">Apodos y otros nombres ${helpBtn("pers.apodos")}</label><input id="cf-al" class="input" data-cf="aliases" value="${esc((c.aliases || []).join(", "))}" placeholder="Separados por comas"></div>
           </div>
           <p class="muted" style="font-size:12.5px;margin:-6px 0 0">INK usa el nombre y los apodos para reconocerlo en tus escenas mientras escribes.</p>
         </div>
       </header>
-      ${c.avatar ? `<div class="av-block"><div class="section-h" style="margin:26px 0 10px"><h2>Emociones</h2><span class="spacer"></span><button class="btn small" data-act="sheet" data-id="${c.id}">${ico("download")} Hoja PDF</button><a class="btn small" href="#/av/${c.id}">${ico("pen")} Editar avatar</a></div>
+      ${c.avatar ? `<div class="av-block"><div class="section-h" style="margin:26px 0 10px"><h2>Emociones ${helpBtn("avatar.emociones")}</h2><span class="spacer"></span><button class="btn small" data-act="sheet" data-id="${c.id}">${ico("download")} Hoja PDF</button><a class="btn small" href="#/av/${c.id}">${ico("pen")} Editar avatar</a></div>
         <div class="emo-gal" id="emo-gal">${EMOS.map(([k, l]) => `<figure><span class="ei" data-emo="${k}"></span><figcaption>${l}</figcaption></figure>`).join("")}</div>
         ${c.avatar.looks.length > 1 ? `<div class="looks" style="margin-top:12px"><span class="lbl" style="margin:0 6px 0 0">Atuendos</span>${c.avatar.looks.map((l) => `<button class="chip" data-act="look-quick" data-id="${c.id}" data-v="${l.id}" aria-pressed="${l.id === Av.look(c).id}">${esc(l.name)}</button>`).join("")}</div>` : ""}
         <p class="credit">${esc(Av.credit(c))}</p></div>`
       : `<div class="avatar-cta"><div><b>Dale un rostro a ${esc(c.name || "tu personaje")}</b><p class="muted" style="margin:2px 0 0;font-size:13.5px">Con tus sprites anime o con DiceBear, con diez emociones y varios atuendos.</p></div><a class="btn primary small" href="#/av/${c.id}">${ico("image")} Crear avatar</a></div>`}
       <div class="secs">${secs}</div>
+      ${refBoardHTML("char", c.id, { help: "pers.referencias", hint: "Su ropa, su casa, objetos importantes, alguien que se le parece." })}
       ${(() => { const ap = appearances(c.id); return ap.length ? `<div class="section-h"><h2>Aparece en</h2></div><div class="chips">${ap.map((x) => `<a class="chip" href="#/c/${x.ch.id}"><i class="rdot st-cast-${x.s}"></i>${esc(x.ch.title)}<span class="muted" style="font-weight:500">${x.s === "escena" ? "en escena" : x.s === "mencion" ? "mencionado" : "en pensamiento"}</span></a>`).join("")}</div>` : ""; })()}
-      <div class="section-h"><h2>Relaciones</h2><span class="spacer"></span><button class="btn small" data-act="new-rel" data-id="${c.id}">${ico("link")} Agregar relación</button></div>
+      <div class="section-h"><h2>Relaciones ${helpBtn("pers.relaciones")}</h2><span class="spacer"></span><button class="btn small" data-act="new-rel" data-id="${c.id}">${ico("link")} Agregar relación</button></div>
       ${rels.length ? `<div class="rel-list">${rels.map((r) => relRow(r, c.id)).join("")}</div>` : `<p class="muted">Sin relaciones todavía. ¿Con quién comparte historia?</p>`}
-      ${lin.length > 1 || src ? `<div class="section-h"><h2>Versiones</h2></div>
+      ${lin.length > 1 || src ? `<div class="section-h"><h2>Versiones ${helpBtn("pers.versiones")}</h2></div>
         <div class="versions">${lin.map((v) => { const vp = Store.get("projects", v.projectId); return `<a class="ver ${v.id === c.id ? "cur" : ""}" href="#/pj/${v.id}">${avatarHTML(v, 40)}<div><div class="nm">${esc(v.name)}</div><div class="sm">En «${esc(vp ? vp.title : "libro eliminado")}»${v.age ? `, ${esc(v.age)} años` : ""}</div></div></a>`; }).join('<span class="ver-arrow" aria-hidden="true"></span>')}</div>
         ${src ? `<div class="field" style="margin-top:14px"><label for="cf-vn">Qué cambió desde «${esc(Store.get("projects", src.projectId)?.title || "el libro anterior")}»</label><textarea id="cf-vn" class="input grow" rows="2" data-cf="versionNote" placeholder="Años que pasaron, lo que vivió, cómo lo cambió…">${esc(c.versionNote || "")}</textarea></div>
         ${diffs.length ? `<details class="sec" data-sec="diff" ${open.has("diff") ? "open" : ""}><summary><span class="st">Antes y ahora</span><span class="sd">${diffs.length} ${diffs.length === 1 ? "diferencia" : "diferencias"} con su versión anterior</span></summary><div class="sb diff">${diffs.map(([f, l]) => `<div class="dr"><div class="dl">${l}</div><div class="db"><span>Antes</span>${esc(f === "role" ? ROLES[src[f]]?.label || "" : src[f] || "—")}</div><div class="da"><span>Ahora</span>${esc(f === "role" ? ROLES[c[f]]?.label || "" : c[f] || "—")}</div></div>`).join("")}</div></details>` : `<p class="muted" style="font-size:13.5px">Por ahora es idéntico a su versión anterior. Cambia lo que haga falta: edad, oficio, deseo…</p>`}` : ""}` : ""}
@@ -1466,7 +1531,7 @@ function relModal({ rel, a, b, from }) {
   const pickOther = !rel && from && !b;
   openModal(`<h2>${rel ? "Editar relación" : "Nueva relación"}</h2>
     ${pickOther ? `<div class="field"><label for="rm-o">Con</label><select id="rm-o" class="input"><option value="">Elige un personaje…</option>${cs.filter((c) => c.id !== from).map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></div>` : `<p style="margin:-6px 0 12px;font-weight:650">${esc(Store.get("characters", A)?.name)} y ${esc(Store.get("characters", B)?.name)}</p>`}
-    <div class="lbl">Tipo</div><div class="chips" id="rm-types"></div><div id="rm-dir"></div>
+    <div class="lbl">Tipo ${helpBtn("pers.relaciones")}</div><div class="chips" id="rm-types"></div><div id="rm-dir"></div>
     <div class="field" style="margin-top:14px"><label for="rm-n">Nota (opcional)</label><input id="rm-n" class="input" value="${esc(r0.note || "")}" placeholder="Ej. hermana mayor, le debe la vida, se odian desde niños…"></div>
     <div class="foot">${rel ? `<button class="btn ghost danger" id="rm-del">${ico("trash")} Eliminar</button>` : ""}<span class="spacer"></span><button class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" id="rm-ok">Guardar relación</button></div>`, (box) => {
     box.dataset.genre = Store.get("projects", pid)?.genre || "tinta";
@@ -1485,10 +1550,10 @@ function relModal({ rel, a, b, from }) {
 }
 function deleteCharacter(id) {
   const c = Store.get("characters", id);
-  confirmBox(`¿Eliminar a ${c.name}?`, "Se borran su ficha y sus relaciones. Las ideas ligadas a este personaje se conservan.", "Eliminar", () => {
+  confirmBox(`¿Eliminar a ${c.name}?`, "Se borran su ficha, sus relaciones, su avatar y sus imágenes de referencia. Las ideas ligadas a este personaje se conservan.", "Eliminar", () => {
     Data.relationsOf(id).forEach((r) => Store.remove("relations", r.id));
     Store.list("ideas").filter((i) => (i.characterIds || []).includes(id)).forEach((i) => Store.put("ideas", { ...i, characterIds: i.characterIds.filter((x) => x !== id) }, { quiet: true }));
-    Store.remove("characters", id); location.hash = "#/p/" + c.projectId + "/personajes";
+    Img.removeOwned("char", id); Store.remove("characters", id); location.hash = "#/p/" + c.projectId + "/personajes";
   });
 }
 
@@ -1555,6 +1620,7 @@ function nodeTap(id) {
 const IDB = {
   db() { return this._db || (this._db = new Promise((res, rej) => { const r = indexedDB.open("ink", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); })); },
   async get(k) { try { const d = await this.db(); return await new Promise((res) => { const q = d.transaction("kv").objectStore("kv").get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); }); } catch (e) { return null; } },
+  async all(prefix) { try { const d = await this.db(); return await new Promise((res) => { const out = []; const q = d.transaction("kv").objectStore("kv").openCursor(IDBKeyRange.bound(prefix, prefix + "\uffff")); q.onsuccess = () => { const c = q.result; if (c) { out.push(c.value); c.continue(); } else res(out); }; q.onerror = () => res(out); }); } catch (e) { return []; } },
   async set(k, v) { const d = await this.db(); return new Promise((res, rej) => { const t = d.transaction("kv", "readwrite"); t.objectStore("kv").put(v, k); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
 };
 const SB_SQL = `-- INK · base de datos para tu propia nube (pégalo en Supabase > SQL Editor > Run)
@@ -1706,6 +1772,99 @@ function openSBSetup() {
     };
     m.querySelector("#sb-up").onclick = () => go("signup"); m.querySelector("#sb-in").onclick = () => go("login");
   });
+}
+
+/* ================= Imágenes: referencias y avatar propio ================= */
+async function compressTo(file, maxDim = 1400, maxLen = 175000) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await loadImg(url); let { width: w, height: h } = img; const k = Math.min(1, maxDim / Math.max(w, h)); w = Math.round(w * k); h = Math.round(h * k);
+    const cv = document.createElement("canvas"); cv.width = w; cv.height = h; const x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+    let q = 0.86, out = cv.toDataURL("image/jpeg", q);
+    while (out.length > maxLen && q > 0.4) { q -= 0.08; out = cv.toDataURL("image/jpeg", q); }
+    let s = 1; while (out.length > maxLen && s > 0.35) { s -= 0.15; const c2 = document.createElement("canvas"); c2.width = Math.round(w * s); c2.height = Math.round(h * s); c2.getContext("2d").drawImage(cv, 0, 0, c2.width, c2.height); out = c2.toDataURL("image/jpeg", 0.7); }
+    return { data: out, w, h };
+  } finally { URL.revokeObjectURL(url); }
+}
+const Img = {
+  of(owner, ownerId, kind = "ref") { return Store.list("images").filter((i) => i.owner === owner && i.ownerId === ownerId && (i.kind || "ref") === kind).sort((a, b) => (a.order ?? a.createdAt) - (b.order ?? b.createdAt)); },
+  get(id) { return id ? Store.get("images", id) : null; },
+  async add(files, meta) {
+    const out = []; let n = 0;
+    for (const f of files) { if (!/^image\//.test(f.type) && !/\.(jpe?g|png|webp|gif|heic|avif)$/i.test(f.name || "")) continue; n++;
+      try { const r = await compressTo(f, meta.kind === "avatar" ? 1000 : 1400); out.push(Store.put("images", { id: newId(), ...meta, caption: "", data: r.data, w: r.w, h: r.h, order: Date.now() + out.length }, { quiet: true })); }
+      catch (e) { toast(`No se pudo leer «${f.name || "la imagen"}». Prueba con JPG o PNG.`); } }
+    if (!n) toast("Elige archivos de imagen (JPG, PNG o WebP).");
+    return out;
+  },
+  removeOwned(owner, ownerId) { Store.list("images").filter((i) => i.owner === owner && i.ownerId === ownerId).forEach((i) => Store.remove("images", i.id)); },
+};
+function refBoardHTML(owner, ownerId, { title = "Referencias", hint = "", help = "" } = {}) {
+  const imgs = Img.of(owner, ownerId);
+  return `<div class="refboard" data-rb-owner="${owner}" data-rb-id="${ownerId}">
+    <div class="section-h" style="margin-top:34px"><h2>${title} ${help ? helpBtn(help) : ""}</h2><span class="muted">${imgs.length || ""}</span><span class="spacer"></span><label class="btn small">${ico("image")} Agregar imágenes<input type="file" accept="image/*" multiple class="sr" data-act="rb-add" data-owner="${owner}" data-id="${ownerId}"></label></div>
+    ${imgs.length ? `<div class="rb-grid">${imgs.map((i) => `<button class="rb-item" data-act="rb-open" data-id="${i.id}"><img src="${i.data}" alt="${esc(i.caption || "Referencia")}" loading="lazy">${i.caption ? `<span class="cap">${esc(i.caption)}</span>` : ""}</button>`).join("")}</div>`
+      : `<label class="rb-empty">${ico("image")}<span><b>Arrastra imágenes aquí o toca para elegirlas</b><br><small class="muted">${esc(hint || "Fotos, ilustraciones, lugares, ropa, objetos: lo que te ayude a imaginar.")} En computadora también puedes pegarlas con Ctrl + V.</small></span><input type="file" accept="image/*" multiple class="sr" data-act="rb-add" data-owner="${owner}" data-id="${ownerId}"></label>`}
+  </div>`;
+}
+function rbContext() {
+  const r = App.route;
+  if (r.name === "character") { const c = Store.get("characters", r.args[0]); return c ? { owner: "char", ownerId: c.id, projectId: c.projectId } : null; }
+  if (r.name === "project" && r.args[1] === "referencias") return { owner: "project", ownerId: r.args[0], projectId: r.args[0] };
+  return null;
+}
+async function rbAddFiles(files, ctx) {
+  if (!ctx || !files.length) return; toast(files.length > 1 ? `Agregando ${files.length} imágenes…` : "Agregando imagen…", { ms: 1500 });
+  const added = await Img.add([...files], { owner: ctx.owner, ownerId: ctx.ownerId, projectId: ctx.projectId, kind: "ref" });
+  if (added.length) { App.render(); toast(added.length === 1 ? "Referencia agregada" : `${added.length} referencias agregadas`, { glyph: "✓" }); }
+}
+function openRefViewer(id) {
+  const i = Img.get(id); if (!i) return; const list = Img.of(i.owner, i.ownerId); const idx = list.findIndex((x) => x.id === id);
+  const c = i.owner === "char" ? Store.get("characters", i.ownerId) : null;
+  openModal(`<div class="rv"><div class="rv-img"><img src="${i.data}" alt="">
+      ${list.length > 1 ? `<button class="rv-nav prev" data-rv="${list[(idx - 1 + list.length) % list.length].id}" aria-label="Anterior">${ico("back")}</button><button class="rv-nav next" data-rv="${list[(idx + 1) % list.length].id}" aria-label="Siguiente">${ico("back")}</button>` : ""}</div>
+    <div class="field" style="margin:14px 0 0"><label for="rv-cap">Nota</label><input id="rv-cap" class="input" value="${esc(i.caption || "")}" placeholder="¿Qué te inspira de esta imagen?"></div>
+    <div class="foot">${c ? `<button class="btn small" id="rv-av">${ico("image")} Usar como avatar</button>` : ""}<button class="btn small ghost danger" id="rv-del">${ico("trash")} Eliminar</button><span class="spacer"></span><span class="muted" style="font-size:12.5px">${idx + 1} de ${list.length}</span><button class="btn primary" data-act="modal-close">Listo</button></div></div>`, (m) => {
+    m.style.width = "min(900px,100%)";
+    const cap = m.querySelector("#rv-cap"); let t = 0;
+    cap.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { const cur = Img.get(id); if (cur) Store.put("images", { ...cur, caption: cap.value.trim() }, { quiet: true }); App.pending = true; }, 400); });
+    m.querySelectorAll("[data-rv]").forEach((b) => (b.onclick = () => { closeModal(); openRefViewer(b.dataset.rv); }));
+    m.querySelector("#rv-del").onclick = () => { closeModal(); confirmBox("¿Eliminar esta imagen?", "Se eliminará en todos tus dispositivos.", "Eliminar", () => { Store.remove("images", id); App.render(); }); };
+    const av = m.querySelector("#rv-av"); if (av) av.onclick = () => { closeModal(); photoFromRef(c.id, id); };
+    const onKey = (e) => { if (!$("#modal").innerHTML) return document.removeEventListener("keydown", onKey); if (e.key === "ArrowRight" && list.length > 1) m.querySelector(".rv-nav.next").click(); if (e.key === "ArrowLeft" && list.length > 1) m.querySelector(".rv-nav.prev").click(); };
+    document.addEventListener("keydown", onKey);
+  });
+}
+function photoFromRef(cid, imgId) {
+  const c = Store.get("characters", cid); const src = Img.get(imgId); if (!c || !src) return;
+  const go = () => {
+    const copy = Store.put("images", { id: newId(), owner: "char", ownerId: cid, projectId: c.projectId, kind: "avatar", caption: "", data: src.data, w: src.w, h: src.h, order: Date.now() }, { quiet: true });
+    const cur = JSON.parse(JSON.stringify(Store.get("characters", cid)));
+    if (cur.avatar && cur.avatar.engine === "photo") { const l = Av.look(cur); l.cfg.img = copy.id; l.cfg.crop = { x: 0.5, y: 0.35, z: 1.4 }; }
+    else { const l = newLook("photo"); l.cfg.img = copy.id; cur.avatar = { engine: "photo", looks: [l], active: l.id, emo: {} }; }
+    avSave(cur, { rerender: false }); location.hash = "#/av/" + cid;
+  };
+  if (c.avatar && c.avatar.engine !== "photo") confirmBox("¿Usar esta imagen como avatar?", "Reemplazará el avatar actual de sprites o DiceBear.", "Usar imagen", go); else go();
+}
+/* ---------- Motor de avatar: imagen propia ---------- */
+const Photo = {
+  async full(cfg, emo) { const id = (emo && cfg.emo && cfg.emo[emo]) || cfg.img; const r = Img.get(id) || Img.get(cfg.img); if (!r) throw new Error("noimg"); const im = await loadImg(r.data); const cv = document.createElement("canvas"); cv.width = im.width; cv.height = im.height; cv.getContext("2d").drawImage(im, 0, 0); return cv; },
+  head(full, cfg, size = 160, bg) {
+    const cr = cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }; const side = Math.min(full.width, full.height) / Math.max(1, cr.z);
+    const sx = Math.max(0, Math.min(full.width - side, cr.x * full.width - side / 2)), sy = Math.max(0, Math.min(full.height - side, cr.y * full.height - side / 2));
+    const cv = document.createElement("canvas"); cv.width = cv.height = size; const x = cv.getContext("2d"); if (bg) { x.fillStyle = bg; x.fillRect(0, 0, size, size); } x.drawImage(full, sx, sy, side, side, 0, 0, size, size); return cv;
+  },
+};
+function photoPanelHTML(c, look) {
+  const cfg = look.cfg; const main = Img.get(cfg.img); const cr = cfg.crop || { x: 0.5, y: 0.4, z: 1.2 };
+  const refs = Img.of("char", c.id);
+  return `<div class="avsec"><h4>Imagen principal</h4>
+      ${main ? `<div class="crop-box"><div class="crop-circle" id="crop-circle" style="background-image:url('${main.data}')"></div><div class="sliders" style="flex:1"><label>Zoom <input type="range" min="1" max="4" step="0.05" value="${cr.z}" data-crop="z"></label><label>Horizontal <input type="range" min="0" max="1" step="0.01" value="${cr.x}" data-crop="x"></label><label>Vertical <input type="range" min="0" max="1" step="0.01" value="${cr.y}" data-crop="y"></label><p class="muted" style="font-size:12px;margin:0">También puedes arrastrar dentro del círculo.</p></div></div>` : `<p class="muted" style="margin:0 0 10px">Sube una foto o ilustración que represente a ${esc(c.name)}.</p>`}
+      <div class="row" style="margin-top:10px"><label class="btn small ${main ? "" : "primary"}">${ico("upload")} ${main ? "Cambiar imagen" : "Subir imagen"}<input type="file" accept="image/*" class="sr" data-act="ph-main"></label></div>
+      ${refs.length ? `<div class="lbl">O elige una de sus referencias</div><div class="tiles sm">${refs.slice(0, 12).map((r) => `<button class="tile" data-av="ph-ref" data-v="${r.id}"><span class="tp"><img src="${r.data}" alt=""></span></button>`).join("")}</div>` : ""}
+    </div>
+    <div class="avsec"><h4>Una imagen por emoción (opcional)</h4><p class="muted" style="font-size:12.5px;margin:-4px 0 10px">Si no subes una, se usa la principal. Usa encuadres parecidos para que el recorte coincida.</p>
+      <div class="tiles sm">${EMOS.map(([k, l]) => { const e = cfg.emo && Img.get(cfg.emo[k]); return `<label class="tile ph-emo" title="${l}"><span class="tp">${e ? `<img src="${e.data}" alt="">` : `<span class="txt" style="font-family:var(--serif);font-size:20px;color:var(--muted)">+</span>`}</span><small>${l}</small><input type="file" accept="image/*" class="sr" data-act="ph-emo" data-e="${k}">${e ? `<button type="button" class="ph-x" data-av="ph-emo-rm" data-v="${k}" aria-label="Quitar">✕</button>` : ""}</label>`; }).join("")}</div></div>`;
 }
 
 /* ================= Fase 2.2 · Avatar ================= */
@@ -1874,17 +2033,20 @@ const Av = {
   async canvas(c, emo = "neutral", look) {
     const a = c.avatar; look = look || this.look(c); if (!look) return null;
     if (a.engine === "sprite") return Spr.render(look.cfg, emo, a.emo);
+    if (a.engine === "photo") return Photo.full(look.cfg, emo);
     const uri = await DB.uri(look.cfg, emo, a.emo); return uri;
   },
   async headUrl(c, emo, look) {
     const a = c.avatar; look = look || this.look(c); if (!look) return null;
     if (a.engine === "sprite") { const full = await Spr.render(look.cfg, emo, a.emo); return Spr.headCanvas(full, look.cfg.base, 128, "rgba(0,0,0,0)").toDataURL("image/png"); }
+    if (a.engine === "photo") { const full = await Photo.full(look.cfg, emo); return Photo.head(full, look.cfg, 256).toDataURL("image/jpeg", 0.88); }
     return DB.uri(look.cfg, emo, a.emo);
   },
   async dataUrl(c, emo, look) { const r = await this.canvas(c, emo, look); if (!r) return null; return typeof r === "string" ? r : r.toDataURL("image/png"); },
   async thumb(c) {
     const look = this.look(c); if (!look) return null; const size = 160; const bg = c.color ? shade(c.color, 0.72) : "#dde3ea";
     if (c.avatar.engine === "sprite") { const full = await Spr.render(look.cfg, "neutral", c.avatar.emo); return Spr.headCanvas(full, look.cfg.base, size, bg).toDataURL("image/jpeg", 0.86); }
+    if (c.avatar.engine === "photo") { if (!look.cfg.img) return null; const full = await Photo.full(look.cfg, "neutral"); return Photo.head(full, look.cfg, size, bg).toDataURL("image/jpeg", 0.86); }
     const uri = await DB.uri(look.cfg, "neutral", c.avatar.emo);
     const im = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = uri; });
     const cv = document.createElement("canvas"); cv.width = cv.height = size; const x = cv.getContext("2d"); x.fillStyle = "#" + (look.cfg.bg || "dde3ea"); x.fillRect(0, 0, size, size); x.drawImage(im, 0, 0, size, size);
@@ -1893,6 +2055,7 @@ const Av = {
   credit(c) {
     const a = c && c.avatar; if (!a) return "";
     if (a.engine === "sprite") return "Sprites de Sutemo (sutemo.itch.io)";
+    if (a.engine === "photo") return "Imagen de referencia propia";
     const s = DB_STYLES[(this.look(c) || {}).cfg?.style]; return s ? `${s.credit}, ${s.lic}. Generado con DiceBear.` : "";
   },
 };
@@ -1962,12 +2125,13 @@ const AvUI = { emo: "neutral", open: new Set(), dbSeeds: [], err: "" };
 function newLook(engine, name = "Principal", from) {
   if (from) return { id: newId(), name, cfg: JSON.parse(JSON.stringify(from.cfg)) };
   if (engine === "sprite") return { id: newId(), name, cfg: { base: "chica", ...SPR_DEFAULT.chica, acc: [], tint: { h: -1, s: 100, l: 0 } } };
+  if (engine === "photo") return { id: newId(), name, cfg: { img: null, crop: { x: 0.5, y: 0.4, z: 1.2 }, emo: {} } };
   return { id: newId(), name, cfg: { style: "lorelei", seed: Math.random().toString(36).slice(2, 9), sel: {}, colors: {}, bg: "dde3ea" } };
 }
 function avSave(c, { rerender = true } = {}) {
   const saved = Store.put("characters", c, { quiet: true });
   const s = $("#av-saved"); if (s) s.textContent = "Guardado";
-  clearTimeout(AvUI._tT); AvUI._tT = setTimeout(async () => { try { const t = await Av.thumb(saved); const cur = Store.get("characters", saved.id); if (cur && t) Store.put("characters", { ...cur, thumb: t }, { quiet: true }); } catch (e) { /* sin conexión o estilo no disponible */ } }, 700);
+  clearTimeout(AvUI._tT); AvUI._tT = setTimeout(async () => { try { const t = await Av.thumb(saved); const cur = Store.get("characters", saved.id); if (cur) Store.put("characters", { ...cur, thumb: t || null }, { quiet: true }); } catch (e) { /* sin conexión o estilo no disponible */ } }, 700);
   if (rerender) avRefresh();
   return saved;
 }
@@ -1976,9 +2140,10 @@ Views.avatar = (id) => {
   if (!c) return { genre: "tinta", html: `<div class="empty"><h3>Este personaje ya no existe</h3><a class="btn" href="#/libros">Ir a Libros</a></div>` };
   const p = Store.get("projects", c.projectId);
   const head = `<div class="row" style="margin-bottom:16px"><a class="btn ghost small" href="#/pj/${c.id}">${ico("back")} Ficha de ${esc(c.name)}</a><span class="spacer"></span><span class="muted" style="font-size:13px" id="av-saved"></span>${c.avatar ? `<a class="btn small primary" href="#/pj/${c.id}">Listo</a>` : ""}</div>`;
-  if (!c.avatar) return { genre: p ? p.genre : "tinta", html: `<div class="av-page">${head}<h1 class="page-title">Dale un rostro a ${esc(c.name)}</h1><p class="lede">Elige cómo quieres crearlo. Puedes cambiar de opción después.</p>
+  if (!c.avatar) return { genre: p ? p.genre : "tinta", html: `<div class="av-page">${head}<h1 class="page-title">Dale un rostro a ${esc(c.name)}</h1><p class="lede">Elige cómo quieres crearlo. Puedes cambiar de opción después. ${helpBtn("avatar.motores")}</p>
     <div class="engine-pick">
       <button class="eng" data-av="engine-start" data-v="sprite"><div class="eng-prev" data-thumb-base="chica"></div><div><h3>Sprites anime</h3><p>Ilustración pintada estilo novela visual. Tres bases, peinados, atuendos y expresiones reales.</p><span class="pill">Sprites de Sutemo</span></div></button>
+      <button class="eng" data-av="engine-start" data-v="photo"><div class="eng-prev" id="eng-ph">${(() => { const r = Img.of("char", c.id)[0]; return r ? `<img alt="" src="${r.data}">` : `<span style="font-family:var(--serif);font-size:34px;color:var(--muted)">${ico("image")}</span>`; })()}</div><div><h3>Mi imagen</h3><p>Sube una foto o ilustración de referencia. Puedes encuadrar el rostro y subir una imagen por emoción.</p><span class="pill">Funciona sin internet</span></div></button>
       <button class="eng" data-av="engine-start" data-v="dicebear"><div class="eng-prev" id="eng-db"></div><div><h3>DiceBear</h3><p>Seis estilos ilustrados con tonos de piel diversos y muchas combinaciones. Necesita internet para diseñar.</p><span class="pill">Lorelei, Avataaars, Micah, Miniavs, Personas, Toon Head</span></div></button>
     </div></div>` };
   const a = c.avatar; const look = Av.look(c);
@@ -1987,12 +2152,12 @@ Views.avatar = (id) => {
       <div class="av-left">
         <div class="av-stage" id="av-stage"><div class="spin"></div></div>
         <div class="emo-strip" id="emo-strip">${EMOS.map(([k, l]) => `<button data-av="emo" data-v="${k}" aria-pressed="${AvUI.emo === k}" title="${l}"><span class="ei" data-emo="${k}"></span><small>${l}</small></button>`).join("")}</div>
-        <div class="looks"><span class="lbl" style="margin:0 6px 0 0">Atuendos</span>${a.looks.map((l) => `<button class="chip" data-av="look" data-v="${l.id}" aria-pressed="${l.id === look.id}">${esc(l.name)}</button>`).join("")}<button class="chip" data-av="look-new">${ico("plus")} Nuevo</button></div>
+        <div class="looks"><span class="lbl" style="margin:0 2px 0 0">Atuendos</span>${helpBtn("avatar.atuendos")}${a.looks.map((l) => `<button class="chip" data-av="look" data-v="${l.id}" aria-pressed="${l.id === look.id}">${esc(l.name)}</button>`).join("")}<button class="chip" data-av="look-new">${ico("plus")} Nuevo</button></div>
         <div class="row look-acts"><input class="input" id="look-name" value="${esc(look.name)}" aria-label="Nombre del atuendo" style="max-width:220px"><button class="btn small ghost" data-av="emo-adjust">${ico("pen")} Ajustar emociones</button>${a.looks.length > 1 ? `<button class="icon-btn" data-av="look-del" aria-label="Eliminar atuendo">${ico("trash")}</button>` : ""}</div>
         <p class="credit" id="av-credit">${esc(Av.credit(c))}</p>
       </div>
       <div class="av-right">
-        <div class="seg" role="group" aria-label="Motor" style="margin-bottom:16px"><button data-av="engine" data-v="sprite" aria-pressed="${a.engine === "sprite"}">Sprites anime</button><button data-av="engine" data-v="dicebear" aria-pressed="${a.engine === "dicebear"}">DiceBear</button></div>
+        <div class="row" style="gap:6px;margin-bottom:16px"><div class="seg" role="group" aria-label="Motor"><button data-av="engine" data-v="sprite" aria-pressed="${a.engine === "sprite"}">Sprites anime</button><button data-av="engine" data-v="dicebear" aria-pressed="${a.engine === "dicebear"}">DiceBear</button><button data-av="engine" data-v="photo" aria-pressed="${a.engine === "photo"}">Mi imagen</button></div>${helpBtn("avatar.motores")}</div>
         <div id="av-panel"></div>
       </div>
     </div></div>` };
@@ -2038,13 +2203,15 @@ async function avRefresh() {
   const c = Store.get("characters", App.route.args[0]); if (!c || !c.avatar || App.route.name !== "avatar") return;
   const run = ++_avRun; const look = Av.look(c); const a = c.avatar;
   if (a.engine === "sprite" && !SPR_META) { try { await Spr.ensure(); } catch (e) { const pn = $("#av-panel"), sg = $("#av-stage"); if (pn) pn.innerHTML = packPromptHTML(); if (sg) sg.innerHTML = `<p class="muted" style="padding:20px;text-align:center">Carga tu paquete de sprites para ver este avatar.</p>`; return; } if (run !== _avRun) return; }
-  const panel = $("#av-panel"); if (panel) panel.innerHTML = a.engine === "sprite" ? sprPanelHTML(look.cfg) : dbPanelHTML(look.cfg);
+  const panel = $("#av-panel"); if (panel) panel.innerHTML = a.engine === "sprite" ? sprPanelHTML(look.cfg) : a.engine === "photo" ? photoPanelHTML(c, look) : dbPanelHTML(look.cfg);
+  if (a.engine === "photo") mountCrop(c.id);
   $$("#emo-strip [data-av=emo]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === AvUI.emo));
   const cr = $("#av-credit"); if (cr) cr.textContent = Av.credit(c);
   if (a.engine === "dicebear" && !DB.mods[look.cfg.style] && !AvUI.err) {
     DB.style(look.cfg.style).then(() => run === _avRun && avRefresh()).catch(() => { AvUI.err = "No se pudo cargar DiceBear. Revisa tu conexión a internet."; if (run === _avRun) avRefresh(); });
   }
   const stage = $("#av-stage");
+  if (a.engine === "photo" && !look.cfg.img) { if (stage) stage.innerHTML = `<p class="muted" style="padding:20px;text-align:center">Sube una imagen para ver a ${esc(c.name)} aquí.</p>`; return; }
   try {
     const r = await Av.canvas(c, AvUI.emo); if (run !== _avRun || !stage) return;
     stage.innerHTML = ""; if (typeof r === "string") { const im = new Image(); im.src = r; im.alt = ""; stage.appendChild(im); } else if (r) { r.className = "cv"; stage.appendChild(r); }
@@ -2082,7 +2249,9 @@ function mountAvatar() {
     if (k === "look") { upd((c) => (c.avatar.active = v)); App.render(); return; }
     if (k === "look-new") { upd((c, l) => { const n = newLook(c.avatar.engine, `Atuendo ${c.avatar.looks.length + 1}`, l); c.avatar.looks.push(n); c.avatar.active = n.id; }); App.render(); toast("Nuevo atuendo creado a partir del actual. Cambia su ropa y peinado.", { glyph: "✦" }); return; }
     if (k === "look-del") { confirmBox("¿Eliminar este atuendo?", "Los demás atuendos se conservan.", "Eliminar", () => { upd((c, l) => { c.avatar.looks = c.avatar.looks.filter((x) => x.id !== l.id); c.avatar.active = c.avatar.looks[0].id; }); App.render(); }); return; }
-    if (k === "emo-adjust") { openEmoAdjust(id); return; }
+    if (k === "emo-adjust") { if (get().avatar.engine === "photo") { toast("Con Mi imagen, sube una imagen para cada emoción en el panel de la derecha."); return; } openEmoAdjust(id); return; }
+    if (k === "ph-ref") { photoFromRef(id, v); setTimeout(() => App.render(), 50); return; }
+    if (k === "ph-emo-rm") { e.preventDefault(); upd((c, l) => { const old = l.cfg.emo && l.cfg.emo[v]; l.cfg.emo = { ...(l.cfg.emo || {}) }; delete l.cfg.emo[v]; if (old) Store.remove("images", old); }); return; }
     if (k === "db-retry") { AvUI.err = ""; DB._core = null; DB._col = null; avRefresh(); return; }
     // sprites
     if (k === "base") upd((c, l) => { l.cfg = { ...l.cfg, base: v, ...SPR_DEFAULT[v], glasses: -1, acc: [] }; });
@@ -2102,10 +2271,34 @@ function mountAvatar() {
   let rt = 0;
   page.addEventListener("input", (e) => {
     const el = e.target;
+    if (el.dataset.crop) { const cc = $("#crop-circle"); const cur0 = Av.look(get()).cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }; const nc = { ...cur0, [el.dataset.crop]: Number(el.value) }; if (cc) paintCrop(cc, nc); clearTimeout(rt); rt = setTimeout(() => upd((c, l) => (l.cfg.crop = nc), { rerender: false }), 250); clearTimeout(AvUI._st); AvUI._st = setTimeout(() => avRefreshStage(), 400); return; }
     if (el.dataset.avr) { clearTimeout(rt); rt = setTimeout(() => upd((c, l) => { l.cfg.tint = { ...(l.cfg.tint || { h: -1, s: 100, l: 0 }), [el.dataset.avr]: Number(el.value) }; if (el.dataset.avr === "h" && l.cfg.tint.s === 100) l.cfg.tint.s = 60; }, {}), 120); }
     else if (el.id === "look-name") { clearTimeout(rt); rt = setTimeout(() => upd((c, l) => (l.name = el.value.trim() || l.name), { rerender: false }), 500); }
   });
-  page.addEventListener("change", (e) => { const el = e.target; if (el.dataset.avc) upd((c, l) => { l.cfg.colors = { ...(l.cfg.colors || {}), [el.dataset.avc]: el.value.replace("#", "") }; }); if (el.id === "look-name") App.render(); });
+  page.addEventListener("change", async (e) => {
+    const el = e.target;
+    if ((el.dataset.act === "ph-main" || el.dataset.act === "ph-emo") && el.files[0]) {
+      const c0 = get(); const [r] = await Img.add([el.files[0]], { owner: "char", ownerId: id, projectId: c0.projectId, kind: "avatar" }); if (!r) return;
+      if (el.dataset.act === "ph-main") upd((c, l) => { if (l.cfg.img) Store.remove("images", l.cfg.img); l.cfg.img = r.id; l.cfg.crop = { x: 0.5, y: 0.38, z: 1.35 }; });
+      else upd((c, l) => { const old = l.cfg.emo && l.cfg.emo[el.dataset.e]; if (old) Store.remove("images", old); l.cfg.emo = { ...(l.cfg.emo || {}), [el.dataset.e]: r.id }; });
+      return;
+    }
+    if (el.dataset.avc) upd((c, l) => { l.cfg.colors = { ...(l.cfg.colors || {}), [el.dataset.avc]: el.value.replace("#", "") }; }); if (el.id === "look-name") App.render(); });
+}
+function paintCrop(el, cr) { const img = el._img; if (!img) return; const ar = img.width / img.height; const sz = ar >= 1 ? [cr.z * 100 * ar, cr.z * 100] : [cr.z * 100, cr.z * 100 / ar]; el.style.backgroundSize = `${sz[0]}% ${sz[1]}%`; const vis = Math.min(img.width, img.height) / cr.z; const maxX = img.width - vis, maxY = img.height - vis; const sx = Math.max(0, Math.min(maxX, cr.x * img.width - vis / 2)), sy = Math.max(0, Math.min(maxY, cr.y * img.height - vis / 2)); el.style.backgroundPosition = `${maxX > 0 ? (sx / maxX) * 100 : 50}% ${maxY > 0 ? (sy / maxY) * 100 : 50}%`; }
+function mountCrop(cid) {
+  const el = $("#crop-circle"); if (!el) return; const c = Store.get("characters", cid); const look = Av.look(c); const r = Img.get(look.cfg.img); if (!r) return;
+  loadImg(r.data).then((im) => { el._img = im; paintCrop(el, look.cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }); });
+  let drag = null;
+  el.addEventListener("pointerdown", (e) => { el.setPointerCapture(e.pointerId); const cr = Av.look(Store.get("characters", cid)).cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }; drag = { x0: e.clientX, y0: e.clientY, cr }; });
+  el.addEventListener("pointermove", (e) => { if (!drag || !el._img) return; const w = el.clientWidth, im = el._img; const vis = Math.min(im.width, im.height) / drag.cr.z;
+    const nc = { ...drag.cr, x: Math.max(0, Math.min(1, drag.cr.x - ((e.clientX - drag.x0) / w) * (vis / im.width))), y: Math.max(0, Math.min(1, drag.cr.y - ((e.clientY - drag.y0) / w) * (vis / im.height))) }; drag.last = nc; paintCrop(el, nc); });
+  const end = () => { if (!drag) return; const nc = drag.last; drag = null; if (!nc) return; const cur = JSON.parse(JSON.stringify(Store.get("characters", cid))); Av.look(cur).cfg.crop = nc; avSave(cur, { rerender: false }); $$("[data-crop]").forEach((s) => (s.value = nc[s.dataset.crop])); avRefreshStage(); };
+  el.addEventListener("pointerup", end); el.addEventListener("pointercancel", () => (drag = null));
+}
+async function avRefreshStage() {
+  const c = Store.get("characters", App.route.args[0]); if (!c || !c.avatar || App.route.name !== "avatar") return;
+  for (const [k] of EMOS) { const el = $(`#emo-strip [data-emo="${k}"]`); if (!el) continue; try { el.innerHTML = `<img alt="" src="${await Av.headUrl(c, k)}">`; } catch (e) { break; } }
 }
 function openEmoAdjust(id) {
   const c = Store.get("characters", id); const a = c.avatar; const look = Av.look(c);
@@ -2185,7 +2378,7 @@ const Cast = {
     const present = chars.filter((c) => st[c.id] && st[c.id].s && st[c.id].s !== "ignorar");
     const sugg = chars.filter((c) => found[c.id] && !st[c.id]);
     const run = (this._run = (this._run || 0) + 1);
-    const head = `<div class="cp-h"><b>${sc.n > 1 ? `Escena ${sc.i + 1} de ${sc.n}` : "En esta escena"}</b><button class="icon-btn" data-cp="toggle" aria-label="${this.open ? "Ocultar panel" : "Mostrar panel"}">${ico(this.open ? "x" : "users")}</button></div>`;
+    const head = `<div class="cp-h"><b>${sc.n > 1 ? `Escena ${sc.i + 1} de ${sc.n}` : "En esta escena"} ${helpBtn("escena.panel")}</b><button class="icon-btn" data-cp="toggle" aria-label="${this.open ? "Ocultar panel" : "Mostrar panel"}">${ico(this.open ? "x" : "users")}</button></div>`;
     if (!this.open) { panel.innerHTML = head; return; }
     panel.innerHTML = head + `
       <div class="cp-list">${present.map((c) => { const s = st[c.id]; return `<button class="cp-face st-${s.s} ${spk === c.id ? "speaking" : ""} ${this.pop === c.id ? "on" : ""}" data-cp="face" data-id="${c.id}" title="${esc(c.name)}: ${CAST_ST[s.s]}${s.e && s.e !== "neutral" ? ", " + EMO_LABEL[s.e].toLowerCase() : ""}"><span class="cpi" data-cpi="${c.id}">${avatarHTML(c, 58)}</span><small>${esc(panelName(c.name))}</small>${s.s !== "escena" ? `<i class="cp-tag">${s.s === "mencion" ? "mención" : "pensamiento"}</i>` : ""}</button>${this.pop === c.id ? this.popHTML(c, s) : ""}`; }).join("")}</div>
@@ -2252,6 +2445,9 @@ async function paletteOf(c) {
     dominant(layerCv(hair), 2).forEach((h, i) => pal.push([i ? "Cabello (sombra)" : "Cabello", h]));
     const eyes = dominant(layerCv([B.expr.Normal]), 3).filter((h) => { const n = parseInt(h.slice(1), 16); const r = n >> 16, g = (n >> 8) & 255, b = n & 255; return Math.max(r, g, b) - Math.min(r, g, b) > 40; }); if (eyes[0]) pal.push(["Ojos", eyes[0]]);
     const of = B.outfits[cfg.outfit]; if (of) dominant(layerCv(of[1], true), 3).forEach((h, i) => pal.push([`Ropa ${i + 1}`, h]));
+  } else if (c.avatar.engine === "photo") {
+    const full = await Photo.full(look.cfg, "neutral"); const cv = document.createElement("canvas"); const k = 256 / Math.max(full.width, full.height); cv.width = Math.round(full.width * k); cv.height = Math.round(full.height * k); cv.getContext("2d").drawImage(full, 0, 0, cv.width, cv.height);
+    dominant(cv, 8).forEach((h, i) => pal.push([`Color ${i + 1}`, h]));
   } else {
     for (const [k, v] of Object.entries(look.cfg.colors || {})) pal.push([DB_CLABELS[k] || prettify(k), "#" + v]);
     const uri = await DB.uri(look.cfg, "neutral", c.avatar.emo); const im = await loadImg(uri); const cv = document.createElement("canvas"); cv.width = cv.height = 256; cv.getContext("2d").drawImage(im, 0, 0, 256, 256);
@@ -2266,7 +2462,7 @@ async function toPngBytes(src, size) {
   if (typeof src === "string") { const im = await loadImg(src); cv = document.createElement("canvas"); cv.width = cv.height = size || 512; cv.getContext("2d").drawImage(im, 0, 0, cv.width, cv.height); }
   const blob = await new Promise((r) => cv.toBlob(r, "image/png")); return new Uint8Array(await blob.arrayBuffer());
 }
-async function buildSheet(c, { spoilers }) {
+async function buildSheet(c, { spoilers, refs }) {
   const { PDFDocument, StandardFonts } = PDFLib;
   const p = Store.get("projects", c.projectId) || { title: "", genre: "realista" }; const T = SHEET_THEME[p.genre] || SHEET_THEME.realista;
   const doc = await PDFDocument.create(); doc.setTitle(pdfSafe(`${c.name}, hoja de personaje`)); doc.setCreator("INK"); doc.setAuthor("INK");
@@ -2317,6 +2513,10 @@ async function buildSheet(c, { spoilers }) {
   const looks = c.avatar.looks.slice(0, 4);
   { const pa = newPage(looks.length > 1 ? "Atuendos" : "Retrato completo"); const n = Math.max(2, looks.length); const lw = (W - 2 * M - (n - 1) * 14) / n, lh = H - 96 - 50;
     for (let i = 0; i < looks.length; i++) { const lc = await Av.canvas(c, "neutral", looks[i]); const im = await doc.embedPng(await toPngBytes(lc, 640)); const cx = M + i * (lw + 14), cy = 40; card(pa, cx, cy, lw, lh); const [iw, ih] = fit(im, lw - 16, lh - 40); pa.drawImage(im, { x: cx + (lw - iw) / 2, y: cy + 30 + (lh - 40 - ih) / 2, width: iw, height: ih }); const nt = pdfSafe(looks[i].name).slice(0, 40); pa.drawText(nt, { x: cx + 10, y: cy + 11, size: 10, font: F.bold, color: ink }); } }
+  // ---- Referencias (opcional) ----
+  const rimgs = refs ? Img.of("char", c.id).slice(0, 9) : [];
+  if (rimgs.length) { const pr = newPage("Referencias"); const cols = rimgs.length <= 4 ? 2 : 3; const rows = Math.ceil(rimgs.length / cols); const gw = W - 2 * M, gh = H - 96 - 40; const cw2 = (gw - (cols - 1) * 12) / cols, ch2 = (gh - (rows - 1) * 12) / rows;
+    for (let i = 0; i < rimgs.length; i++) { const r = rimgs[i]; const cx = M + (i % cols) * (cw2 + 12), cy = H - 96 - 12 - Math.floor(i / cols) * (ch2 + 12) - ch2 + 6; card(pr, cx, cy, cw2, ch2); let im; try { im = await doc.embedJpg(Uint8Array.from(atob(r.data.split(",")[1]), (ch) => ch.charCodeAt(0))); } catch (e) { continue; } const capH = r.caption ? 16 : 0; const [iw, ih] = fit(im, cw2 - 12, ch2 - 12 - capH); pr.drawImage(im, { x: cx + (cw2 - iw) / 2, y: cy + 6 + capH + (ch2 - 12 - capH - ih) / 2, width: iw, height: ih }); if (r.caption) pr.drawText(pdfSafe(r.caption).slice(0, 70), { x: cx + 8, y: cy + 7, size: 8.5, font: F.ital, color: ink }); } }
   // ---- Página 3: historia interna (opcional) ----
   if (spoilers) {
     const items = [["La herida", c.wound], ["La mentira que cree", c.lie], ["Contradicción", c.contradiction], ["Secreto", c.secret], ["Trasfondo", c.backstory], ["Al inicio del libro", c.arcStart], ["Al final del libro", c.arcEnd], ["Qué cambió desde el libro anterior", c.versionNote]].filter((x) => x[1]);
@@ -2327,15 +2527,16 @@ async function buildSheet(c, { spoilers }) {
 }
 function openSheetDialog(id) {
   const c = Store.get("characters", id); if (!c) return;
-  if (!c.avatar) { toast("Crea su avatar primero para incluir su retrato y expresiones.", { action: "Crear avatar", onAction: () => (location.hash = "#/av/" + id) }); return; }
+  if (!c.avatar || (c.avatar.engine === "photo" && !Av.look(c).cfg.img)) { toast("Crea su avatar primero para incluir su retrato y expresiones.", { action: "Crear avatar", onAction: () => (location.hash = "#/av/" + id) }); return; }
   openModal(`<h2>Hoja de ${esc(c.name)}</h2><p class="muted" style="margin:-6px 0 14px">Un PDF claro para ti o para compartir con animadores y creadores de videojuegos: retrato, datos, las diez expresiones, atuendos y paleta de color con sus códigos.</p>
     <label class="ck" style="font-size:14px"><input type="checkbox" id="sh-sp"> Incluir motivación, secretos y arco (spoilers)</label>
-    <p class="muted" style="font-size:12.5px;margin:6px 0 0">Déjalo apagado si la vas a compartir y no quieres revelar la historia.</p>
+    <p class="muted" style="font-size:12.5px;margin:6px 0 12px">Déjalo apagado si la vas a compartir y no quieres revelar la historia.</p>
+    ${Img.of("char", id).length ? `<label class="ck" style="font-size:14px"><input type="checkbox" id="sh-rf"> Incluir imágenes de referencia (${Img.of("char", id).length})</label><p class="muted" style="font-size:12.5px;margin:6px 0 0">Si las sacaste de internet, pertenecen a sus autores: inclúyelas solo para uso personal.</p>` : ""}
     <div class="foot"><span class="spacer"></span><button class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" id="sh-go">${ico("download")} Crear PDF</button></div>`, (m) => {
     m.querySelector("#sh-go").onclick = async () => {
       const btn = m.querySelector("#sh-go"); btn.disabled = true; btn.innerHTML = `<span class="spin" style="width:16px;height:16px;margin:0;border-width:2px"></span> Preparando…`;
       try {
-        const bytes = await buildSheet(Store.get("characters", id), { spoilers: m.querySelector("#sh-sp").checked });
+        const bytes = await buildSheet(Store.get("characters", id), { spoilers: m.querySelector("#sh-sp").checked, refs: !!(m.querySelector("#sh-rf") && m.querySelector("#sh-rf").checked) });
         const filename = pdfSafe(`${c.name} - Hoja de personaje.pdf`).replace(/[\\/:*?"<>|]/g, "");
         const blob = new Blob([bytes], { type: "application/pdf" }); closeModal();
         const dl = window.claude && window.claude.use ? await window.claude.use("downloads").catch(() => null) : null;
@@ -2345,6 +2546,195 @@ function openSheetDialog(id) {
     };
   });
 }
+const THES_RAW = "decir|v|afirmar,comentar,responder,contestar,murmurar,susurrar,exclamar,añadir,explicar,declarar,replicar,admitir|callar,omitir\nmirar|v|observar,contemplar,examinar,escudriñar,otear,atisbar,vigilar,ojear,fijarse|ignorar\nver|v|divisar,distinguir,percibir,notar,advertir,avistar,presenciar|\ncaminar|v|andar,pasear,avanzar,deambular,vagar,recorrer,marchar|detenerse,parar\nandar|v|caminar,pasear,deambular,recorrer,transitar|detenerse\ncorrer|v|apresurarse,precipitarse,huir,galopar,trotar,escapar|detenerse,pararse\nhacer|v|realizar,efectuar,elaborar,crear,fabricar,producir,ejecutar|deshacer\nponer|v|colocar,situar,dejar,depositar,acomodar,instalar,ubicar|quitar,retirar\ntener|v|poseer,guardar,conservar,sostener,sujetar|carecer,perder\ndar|v|entregar,ofrecer,ceder,regalar,otorgar,brindar,conceder|quitar,recibir\nsentir|v|percibir,notar,experimentar,padecer,sufrir|\npensar|v|reflexionar,meditar,considerar,cavilar,razonar,suponer,imaginar|\nsaber|v|conocer,entender,dominar,intuir|ignorar,desconocer\nquerer|v|desear,anhelar,ansiar,amar,apreciar,estimar|odiar,rechazar\nllegar|v|arribar,alcanzar,aparecer,presentarse,acudir|partir,marcharse\nsalir|v|marcharse,irse,partir,abandonar,escapar,emerger|entrar\nentrar|v|pasar,ingresar,acceder,penetrar,adentrarse,irrumpir|salir\nabrir|v|destapar,despejar,desplegar,forzar|cerrar\ncerrar|v|clausurar,sellar,tapar,trancar,atrancar|abrir\ntomar|v|agarrar,coger,asir,sujetar,atrapar|soltar,dejar\nagarrar|v|tomar,asir,sujetar,aferrar,empuñar|soltar\nllevar|v|cargar,transportar,portar,trasladar,conducir,acarrear|traer\nbuscar|v|indagar,explorar,rastrear,investigar,perseguir|encontrar\nencontrar|v|hallar,descubrir,localizar,topar|perder\nempezar|v|comenzar,iniciar,emprender,arrancar|terminar,acabar\ncomenzar|v|empezar,iniciar,emprender,arrancar|terminar,acabar\nterminar|v|acabar,concluir,finalizar,culminar,rematar|empezar,comenzar\nacabar|v|terminar,concluir,finalizar,agotar|empezar\nvolver|v|regresar,retornar,retroceder,tornar|irse,partir\nregresar|v|volver,retornar,tornar|partir,marcharse\nhablar|v|conversar,charlar,platicar,dialogar,expresarse|callar\ngritar|v|chillar,vociferar,bramar,rugir,aullar,clamar|susurrar,callar\nsusurrar|v|murmurar,musitar,cuchichear,bisbisear|gritar\nreír|v|carcajearse,sonreír,desternillarse,bromear|llorar\nllorar|v|sollozar,lagrimear,gimotear,lamentarse|reír\nsonreír|v|reír,esbozar una sonrisa|fruncir el ceño\ntemblar|v|estremecerse,tiritar,vibrar,sacudirse|\ncaer|v|desplomarse,derrumbarse,tropezar,precipitarse,hundirse|levantarse,subir\nsubir|v|ascender,escalar,trepar,elevarse,remontar|bajar,descender\nbajar|v|descender,deslizarse,apearse|subir\nesperar|v|aguardar,confiar,anhelar,demorarse|desesperar\nayudar|v|asistir,auxiliar,socorrer,apoyar,respaldar|estorbar,abandonar\nmatar|v|asesinar,liquidar,ejecutar,eliminar,aniquilar|salvar\nmorir|v|fallecer,perecer,expirar,sucumbir,apagarse|nacer,vivir\nvivir|v|existir,habitar,residir,morar,sobrevivir|morir\ngolpear|v|pegar,azotar,aporrear,sacudir,abofetear,embestir|acariciar\ntocar|v|palpar,rozar,acariciar,tantear|\nacariciar|v|rozar,mimar,tocar con suavidad|golpear\nacercarse|v|aproximarse,arrimarse,avanzar|alejarse\nalejarse|v|apartarse,retirarse,distanciarse,retroceder|acercarse\ngirar|v|voltear,rotar,dar la vuelta,torcer|\ndormir|v|descansar,reposar,dormitar,adormecerse|despertar\ndespertar|v|desvelarse,espabilarse|dormir\ncomer|v|devorar,engullir,probar,degustar,alimentarse|ayunar\nbeber|v|tomar,sorber,tragar,apurar|\nescuchar|v|oír,atender,prestar atención|ignorar\noír|v|escuchar,percibir,captar|\nrecordar|v|evocar,rememorar,acordarse,revivir|olvidar\nolvidar|v|omitir,descuidar,borrar|recordar\ncreer|v|pensar,suponer,confiar,considerar,opinar|dudar\ndudar|v|vacilar,titubear,desconfiar,sospechar|creer,confiar\nparecer|v|aparentar,semejar|\nquedar|v|permanecer,seguir,restar|irse\nseguir|v|continuar,proseguir,perseguir,acompañar|abandonar,detenerse\ndejar|v|abandonar,soltar,permitir,ceder|tomar,retener\npasar|v|ocurrir,suceder,atravesar,cruzar,transcurrir|\nocurrir|v|suceder,pasar,acontecer,producirse|\nnecesitar|v|requerir,precisar|\nintentar|v|procurar,tratar,probar,pretender|desistir\nsentarse|v|acomodarse,tomar asiento,instalarse|levantarse\nlevantarse|v|incorporarse,erguirse,alzarse|sentarse,acostarse\nempujar|v|impulsar,embestir,propulsar,arrojar|jalar,tirar\ntirar|v|lanzar,arrojar,jalar,desechar|\nlanzar|v|arrojar,tirar,aventar,disparar|atrapar\nromper|v|quebrar,destrozar,partir,fracturar,rasgar|arreglar,reparar\narreglar|v|reparar,componer,ordenar,solucionar|romper,estropear\nmostrar|v|enseñar,exhibir,revelar,presentar,señalar|ocultar,esconder\nocultar|v|esconder,encubrir,disimular,tapar|mostrar,revelar\nesconder|v|ocultar,guardar,encubrir,tapar|mostrar\npreguntar|v|interrogar,consultar,inquirir,indagar|responder\nresponder|v|contestar,replicar,objetar|preguntar\ncontestar|v|responder,replicar,objetar|preguntar\nbrillar|v|resplandecer,relucir,destellar,centellear,fulgurar|apagarse\nsonar|v|resonar,retumbar,tañer,repicar,tintinear|callar\ntemer|v|recelar,asustarse,atemorizarse|confiar\nodiar|v|detestar,aborrecer,despreciar|amar,querer\namar|v|querer,adorar,estimar|odiar\nentender|v|comprender,captar,descifrar,asimilar|confundir\nmover|v|desplazar,trasladar,agitar,menear|detener,inmovilizar\ndetener|v|parar,frenar,atajar,contener,arrestar|continuar,liberar\nguardar|v|conservar,almacenar,proteger,custodiar,reservar|tirar,gastar\ncambiar|v|modificar,transformar,variar,alterar,sustituir|mantener\nhuir|v|escapar,fugarse,correr,escabullirse|enfrentar\nluchar|v|pelear,combatir,batallar,enfrentarse|rendirse\nsuspirar|v|resoplar,exhalar,anhelar|\ngrande|a|enorme,amplio,extenso,vasto,inmenso|pequeño,diminuto|enorme,colosal,gigantesco\npequeño|a|chico,diminuto,menudo,reducido,minúsculo|grande|diminuto,minúsculo\nbonito|a|lindo,hermoso,bello,precioso,agradable|feo|precioso,espléndido\nhermoso|a|bello,precioso,bonito,atractivo|feo,horrible|espléndido,deslumbrante\nbello|a|hermoso,precioso,bonito|feo|deslumbrante\nfeo|a|desagradable,horrible,grotesco,deforme|bonito,hermoso|horrible,espantoso\nbueno|a|amable,bondadoso,noble,correcto,excelente|malo|excelente,magnífico\nmalo|a|perverso,cruel,dañino,nocivo,deficiente|bueno|pésimo,terrible\ntriste|a|afligido,apenado,melancólico,abatido,sombrío|alegre,feliz|desolado,desconsolado\nalegre|a|contento,jovial,animado,risueño|triste|eufórico,radiante\nfeliz|a|contento,dichoso,alegre,satisfecho|infeliz,triste|radiante,eufórico\ncontento|a|alegre,satisfecho,complacido,feliz|triste,disgustado|eufórico\ncansado|a|fatigado,agotado,rendido,exhausto|descansado,enérgico|exhausto,extenuado\nenojado|a|molesto,irritado,disgustado,furioso|tranquilo,calmado|furioso,iracundo\nmolesto|a|incómodo,irritado,fastidiado,disgustado|contento|furioso\nasustado|a|atemorizado,temeroso,espantado,nervioso|tranquilo,valiente|aterrado,horrorizado\ntranquilo|a|sereno,calmado,apacible,sosegado,quieto|nervioso,inquieto|imperturbable\nnervioso|a|inquieto,intranquilo,ansioso,agitado|tranquilo,sereno|histérico\nfrío|a|helado,fresco,gélido,glacial,distante|caliente,cálido|gélido,glacial\ncaliente|a|cálido,ardiente,tibio,caluroso|frío|abrasador,ardiente\noscuro|a|sombrío,tenebroso,lóbrego,opaco|claro,luminoso|tenebroso,negro\nclaro|a|luminoso,iluminado,brillante,nítido,evidente|oscuro,confuso|\nrápido|a|veloz,ágil,raudo,ligero|lento|vertiginoso\nlento|a|pausado,tardo,parsimonioso,calmoso|rápido|\nviejo|a|anciano,antiguo,añejo,gastado,envejecido|joven,nuevo|ancestral,decrépito\nantiguo|a|viejo,añejo,ancestral,remoto|moderno,nuevo|milenario\njoven|a|juvenil,nuevo,lozano|viejo,anciano|\nnuevo|a|reciente,moderno,flamante,inédito|viejo,usado|\nalto|a|elevado,espigado,esbelto,imponente|bajo|imponente,altísimo\nbajo|a|pequeño,menudo,hondo|alto|\nfuerte|a|robusto,vigoroso,poderoso,resistente|débil|poderoso,colosal\ndébil|a|frágil,endeble,flojo,delicado|fuerte|\nextraño|a|raro,insólito,peculiar,singular,curioso|normal,común|inquietante\nraro|a|extraño,insólito,inusual,peculiar|común,normal|\nimportante|a|relevante,esencial,crucial,trascendental|insignificante|crucial,vital\ndifícil|a|complicado,arduo,duro,complejo|fácil,sencillo|\nfácil|a|sencillo,simple,cómodo|difícil|\nsilencioso|a|callado,sigiloso,mudo,quieto|ruidoso|\nruidoso|a|estruendoso,escandaloso,bullicioso|silencioso|ensordecedor\nlimpio|a|pulcro,aseado,impecable|sucio|\nsucio|a|mugriento,manchado,inmundo|limpio|\nhúmedo|a|mojado,empapado,lluvioso|seco|empapado\nmojado|a|húmedo,empapado,calado|seco|empapado\nseco|a|árido,reseco,marchito|húmedo,mojado|\nsuave|a|terso,delicado,liso,sedoso,tenue|áspero,brusco|\nduro|a|rígido,firme,sólido,severo|blando,suave|\nvacío|a|desierto,desocupado,hueco|lleno|\nlleno|a|repleto,colmado,atestado,pleno|vacío|\nrico|a|adinerado,acaudalado,sabroso|pobre|\npobre|a|humilde,necesitado,escaso|rico|\nvaliente|a|audaz,osado,intrépido,valeroso|cobarde,miedoso|\ncobarde|a|miedoso,temeroso,pusilánime|valiente|\ninteligente|a|listo,astuto,sagaz,brillante|torpe,necio|\ntonto|a|torpe,necio,ingenuo,bobo|listo,inteligente|\nincreíble|a|asombroso,sorprendente,extraordinario,inaudito|creíble,común|\nenorme|a|inmenso,gigantesco,colosal,descomunal|diminuto|\nlargo|a|extenso,prolongado,interminable|corto|interminable\ncorto|a|breve,reducido,escaso|largo|\ncercano|a|próximo,contiguo,inmediato,vecino|lejano|\nlejano|a|distante,remoto,apartado|cercano|\nprofundo|a|hondo,insondable,intenso|superficial|abismal\ncosa|n|objeto,asunto,elemento,detalle,cuestión,artefacto|\ncasa|n|hogar,vivienda,morada,residencia|\ncamino|n|sendero,senda,ruta,vereda,vía|\nmiedo|n|temor,pavor,terror,angustia,recelo|valor,valentía|pánico,terror\nalegría|n|dicha,felicidad,júbilo,gozo|tristeza|euforia,júbilo\ntristeza|n|pena,melancolía,aflicción,congoja|alegría|desolación\nsilencio|n|quietud,calma,mutismo,sosiego|ruido|\nruido|n|sonido,estruendo,estrépito,alboroto|silencio|estruendo\nluz|n|claridad,resplandor,brillo,fulgor,destello|oscuridad|\noscuridad|n|penumbra,tinieblas,sombra,negrura|luz,claridad|\nmirada|n|vistazo,ojeada,expresión|\ncara|n|rostro,semblante,faz,gesto|\nrostro|n|cara,semblante,faz|\nmomento|n|instante,segundo,rato,ocasión|\nlugar|n|sitio,espacio,rincón,paraje,zona|\nproblema|n|dificultad,conflicto,obstáculo,inconveniente|solución|\nidea|n|ocurrencia,pensamiento,noción,plan|\nciudad|n|urbe,villa,población,metrópoli|campo|\npuerta|n|entrada,portón,acceso,umbral|\nventana|n|ventanal,vidriera,tragaluz|\ncalle|n|avenida,callejón,vía,paseo|\ncielo|n|firmamento,bóveda celeste,horizonte|tierra\nsangre|n|herida,linaje|\ndolor|n|sufrimiento,padecimiento,pena,punzada|alivio,placer|\nfuego|n|llama,hoguera,incendio,lumbre|\nviento|n|brisa,ráfaga,vendaval,corriente|calma\nlluvia|n|llovizna,aguacero,tormenta,chubasco|sequía\nmuy|d|sumamente,profundamente,especialmente|poco|\nalgo|d|un poco,ligeramente|\nbastante|d|suficiente,considerablemente|poco|\nsiempre|d|constantemente,continuamente,eternamente|nunca|\nnunca|d|jamás,en ningún momento|siempre|\ntambién|d|además,asimismo,igualmente|tampoco|\ndespués|d|luego,más tarde,posteriormente|antes|\nentonces|d|luego,después,en ese instante,así que|\npronto|d|enseguida,en breve,de inmediato|tarde|\nlentamente|d|despacio,con lentitud,pausadamente,sin prisa|rápidamente\nrápidamente|d|deprisa,a toda prisa,con premura,en un santiamén|lentamente\nsilenciosamente|d|en silencio,sin hacer ruido,sigilosamente,a hurtadillas|ruidosamente\nsuavemente|d|con suavidad,con delicadeza,despacio|bruscamente\ntranquilamente|d|con calma,sin prisa,serenamente|\nfuertemente|d|con fuerza,con firmeza,firmemente|débilmente\ncompletamente|d|del todo,por completo,enteramente|\nfinalmente|d|al final,por fin,al cabo|\nrepentinamente|d|de golpe,sin aviso,en un instante|\ncuidadosamente|d|con cuidado,con esmero,con tiento|\nnerviosamente|d|con nervios,con ansiedad,inquieto|\ntristemente|d|con tristeza,apenado|\nrealmente|d|de verdad,en efecto|\nsimplemente|d|solo,sencillamente|\nclaramente|d|con claridad,sin duda,a las claras|\ntotalmente|d|del todo,por completo|\ninmediatamente|d|enseguida,al instante,de inmediato|\nexactamente|d|justo,con precisión|\nprobablemente|d|quizá,tal vez,seguramente|\nsolamente|d|solo,únicamente|\nprofundamente|d|hondamente,en lo más hondo|superficialmente\nliteralmente|d|al pie de la letra,textualmente|\nbásicamente|d|en esencia,en el fondo|\nobviamente|d|por supuesto,como era de esperar|\nprácticamente|d|casi,poco menos que|\nde repente|f|de pronto,súbitamente,sin aviso,en un instante|\nde pronto|f|súbitamente,sin aviso,de golpe|\nen realidad|f|de hecho,en verdad|\nde hecho|f|en efecto,en realidad|\nsin embargo|f|no obstante,aun así,pero|\nde alguna manera|f|de algún modo,como fuera|\nde algún modo|f|de alguna manera,como fuera|\nen ese momento|f|entonces,justo entonces,en ese instante|\nun poco|f|algo,ligeramente,apenas|mucho\nla verdad|f|sinceramente,para ser honesto|\nalgo así|f|más o menos,parecido|\no sea|f|es decir,dicho de otro modo|\npor supuesto|f|desde luego,claro|\nsin duda|f|seguramente,indudablemente|";
+
+const THES_IRR = {
+  decir: "dijo dije dijeron dice dicen dices digo diciendo dicho dira diria diga dijera",
+  hacer: "hizo hice hicieron hace hacen hago hecho hara haria haga hiciera", poner: "puso puse pusieron pone ponen pongo puesto pondra pondria ponga pusiera",
+  tener: "tuvo tuve tuvieron tiene tienen tengo tendra tendria tenga tuviera", ver: "vio vi vieron ve ven veo visto veia veian vera veria vea viera",
+  sentir: "sintio sintieron siente sienten siento sintiendo sienta sintiera", pensar: "piensa piensan pienso piense piensas",
+  querer: "quiso quise quisieron quiere quieren quiero querra queria quisiera", salir: "salgo saldra saldria salga",
+  volver: "vuelve vuelven vuelvo vuelto vuelva", caer: "cayo cayeron cae caen caigo cayendo caia caian cayera", dar: "dio di dieron da dan doy daba daban diera",
+  saber: "supo supe supieron sabe saben sabra sabria sabia sepa supiera", dormir: "durmio durmieron duerme duermen durmiendo duerma",
+  morir: "murio murieron muere mueren muerto muriendo muera", oir: "oyo oyeron oye oyen oigo oia oian oyendo oido", seguir: "siguio siguieron sigue siguen sigo siguiendo siga",
+  reir: "rio rieron rie rien riendo reia", sonreir: "sonrio sonrieron sonrie sonrien sonriendo sonreia", empezar: "empiezo empieza empiezan empece",
+  comenzar: "comienza comienzan comienzo comence", entender: "entiende entienden entiendo", encontrar: "encuentra encuentran encuentro",
+  recordar: "recuerda recuerdan recuerdo", mover: "mueve mueven muevo", temblar: "tiembla tiemblan tiemblo", huir: "huyo huyeron huye huyen huyendo",
+  sentarse: "sienta sientan siento", despertar: "despierta despiertan despierto", llegar: "llegue", buscar: "busque", tocar: "toque", acercarse: "acerque",
+};
+const THES_END = {
+  ar: "o as a amos an e aste o aron aba abas abamos aban ando ado ada ados adas are aras ara aran aria arian es en ara aran ase",
+  er: "o es e emos en i iste io ieron ia ias iamos ian iendo ido ida idos idas ere era eran eria erian a as an iera ieran",
+  ir: "o es e imos en i iste io ieron ia ias iamos ian iendo ido ida idos idas ire ira iran iria irian a as an iera ieran",
+};
+const CONJ = {
+  ar: ["o", "as", "a", "amos", "an", "é", "aste", "ó", "aron", "aba", "abas", "ábamos", "aban", "ando", "ado", "ada", "ados", "adas", "ará", "arán", "aría", "arían", "e", "en", "ara", "aran"],
+  er: ["o", "es", "e", "emos", "en", "í", "iste", "ió", "ieron", "ía", "ías", "íamos", "ían", "iendo", "ido", "ida", "idos", "idas", "erá", "erán", "ería", "erían", "a", "an", "iera", "ieran"],
+  ir: ["o", "es", "e", "imos", "en", "í", "iste", "ió", "ieron", "ía", "ías", "íamos", "ían", "iendo", "ido", "ida", "idos", "idas", "irá", "irán", "iría", "irían", "a", "an", "iera", "ieran"],
+};
+const IRREG = new Set([...Object.keys(THES_IRR), "ir", "andar", "traer", "oir", "poder", "estar", "ser", "haber", "venir", "conducir", "producir", "pedir", "acostarse", "colgar", "probar", "apretar", "cerrar", "negar", "despertar", "perseguir", "conseguir", "atravesar", "tropezar", "descender", "atender", "sonar", "contar", "mostrar", "costar", "soltar", "rogar", "volar", "herir", "mentir", "servir", "vestir", "repetir", "elegir", "sostener", "detener", "contener", "obtener", "suponer", "componer", "proponer", "atraer", "distraer", "arrepentirse", "divertirse", "advertir", "convertir", "preferir", "sugerir", "hervir", "morder", "llover", "oler", "torcer", "cocer", "forzar", "almorzar", "esforzarse", "avergonzar", "desplegar", "clausurar"].map(normTxt));
+const IRR_SLOT = {dijo:7,dijeron:8,dije:5,dice:2,dicen:4,digo:0,diciendo:13,dicho:14,hizo:7,hicieron:8,hice:5,hace:2,hacen:4,hago:0,hecho:14,puso:7,pusieron:8,puse:5,pone:2,ponen:4,pongo:0,puesto:14,tuvo:7,tuvieron:8,tuve:5,tiene:2,tienen:4,tengo:0,vio:7,vieron:8,vi:5,ve:2,ven:4,veo:0,visto:14,veia:9,veian:12,sintio:7,sintieron:8,siente:2,sienten:4,siento:0,sintiendo:13,quiso:7,quisieron:8,quiere:2,quieren:4,quiero:0,dio:7,dieron:8,da:2,dan:4,cayo:7,cayeron:8,cae:2,caen:4,cayendo:13,vuelve:2,vuelven:4,vuelto:14,salgo:0,piensa:2,piensan:4,pienso:0,durmio:7,durmieron:8,duerme:2,duermen:4,murio:7,murieron:8,muere:2,mueren:4,oyo:7,oyeron:8,oye:2,oyen:4,siguio:7,siguieron:8,sigue:2,siguen:4,rio:7,rieron:8,rie:2,sonrio:7,sonrieron:8,sonrie:2,empieza:2,empiezan:4,comienza:2,comienzan:4,entiende:2,entienden:4,encuentra:2,encuentran:4,recuerda:2,recuerdan:4,mueve:2,mueven:4,tiembla:2,tiemblan:4,huyo:7,huyeron:8,huye:2,huyen:4,sienta:2,sientan:4,despierta:2,despiertan:4,llegue:5,busque:5,toque:5,acerque:5};
+const Thes = {
+  idx: null, ent: {},
+  build() {
+    if (this.idx) return; this.idx = new Map();
+    const add = (form, lemma, info) => { const k = normTxt(form); if (!this.idx.has(k)) this.idx.set(k, []); const l = this.idx.get(k); if (!l.some((x) => x.lemma === lemma)) l.push({ lemma, ...info }); };
+    for (const line of THES_RAW.split("\n")) {
+      const [lemma, pos, syn = "", ant = "", int = ""] = line.split("|"); const e = { lemma, pos, syn: syn.split(",").filter(Boolean), ant: ant.split(",").filter(Boolean), int: int.split(",").filter(Boolean) }; this.ent[lemma] = e;
+      add(lemma, lemma, {});
+      if (pos === "v") { const refl = /se$/.test(lemma) && lemma.length > 4; const base = normTxt(refl ? lemma.slice(0, -2) : lemma); const m = base.match(/^(.*)(ar|er|ir)$/); if (m) THES_END[m[2]].split(" ").forEach((en) => add(m[1] + en, lemma, { verb: 1 })); (THES_IRR[normTxt(lemma)] || "").split(" ").filter(Boolean).forEach((f) => add(f, lemma, { verb: 1 })); if (refl) add(base, lemma, { verb: 1 }); }
+      else if (pos === "a" || pos === "n") {
+        const n = normTxt(lemma);
+        if (pos === "a" && /o$/.test(n)) { add(n.slice(0, -1) + "a", lemma, { fem: 1 }); add(n + "s", lemma, { pl: 1 }); add(n.slice(0, -1) + "as", lemma, { fem: 1, pl: 1 }); }
+        else if (/[aeiou]$/.test(n)) add(n + "s", lemma, { pl: 1 });
+        else add((/z$/.test(n) ? n.slice(0, -1) + "c" : n) + "es", lemma, { pl: 1 });
+        if (pos === "n" && /a$/.test(n) && lemma === "casa") { /* ok */ }
+      }
+    }
+  },
+  inflect(w, info, pos) {
+    if (pos === "v" || pos === "d" || pos === "f") return w; const parts = w.split(" "); let h = parts[0];
+    if (info.fem && pos === "a" && /o$/.test(h)) h = h.slice(0, -1) + "a";
+    if (info.pl) h = /[aeiouáéó]$/.test(h) ? h + "s" : /z$/.test(h) ? h.slice(0, -1) + "ces" : h + "es";
+    parts[0] = h; return parts.join(" ");
+  },
+  look(word) {
+    this.build(); const k = normTxt(String(word || "").trim().toLowerCase()); if (!k) return null;
+    const mine = (Store.meta().thes || {})[k];
+    const hits = this.idx.get(k) || [];
+    const h = hits[0]; const e = h ? this.ent[h.lemma] : null;
+    if (!e && !mine) return null;
+    const info = h || {}; const pos = e ? e.pos : "x";
+    const fix = (l) => l.map((w) => this.inflect(w, info, pos));
+    const cj = (l) => pos === "v" && e && normTxt(word) !== normTxt(e.lemma) ? l.map((x) => ({ inf: x, form: this.conj(word, e.lemma, x) })) : null;
+    return { word, lemma: e ? e.lemma : k, pos, verb: pos === "v", conjSyn: e ? cj(e.syn) : null, conjAnt: e ? cj(e.ant) : null, syn: [...new Set([...(mine?.syn || []), ...(e ? fix(e.syn) : [])])], ant: [...new Set([...(mine?.ant || []), ...(e ? fix(e.ant) : [])])], int: e ? fix(e.int) : [], mine: !!mine };
+  },
+  conj(orig, lemma, syn) {
+    const o = String(orig).toLowerCase(); const base = /se$/.test(lemma) && lemma.length > 4 ? lemma.slice(0, -2) : lemma; const m = base.match(/^(.*)(ar|er|ir)$/); if (!m) return null;
+    let slot = CONJ[m[2]].findIndex((en) => o === m[1] + en); if (slot < 0) slot = CONJ[m[2]].findIndex((en) => normTxt(o) === normTxt(m[1] + en)); if (slot < 0 && IRR_SLOT[normTxt(o)] != null) slot = IRR_SLOT[normTxt(o)]; if (slot < 0) return null;
+    const parts = syn.split(" "); let sw = parts[0]; const refl = /se$/.test(sw) && sw.length > 4; if (refl) sw = sw.slice(0, -2);
+    if (IRREG.has(normTxt(sw)) || IRREG.has(normTxt(sw + "se"))) return null; const sm = sw.match(/^(.*)(ar|er|ir)$/); if (!sm) return null;
+    let stem = sm[1]; const en = CONJ[sm[2]][slot];
+    if (sm[2] === "ar" && /^e/.test(en)) stem = stem.replace(/c$/, "qu").replace(/g$/, "gu").replace(/z$/, "c");
+    if (sm[2] !== "ar" && /^[ao]/.test(en)) stem = stem.replace(/g$/, "j").replace(/c$/, "z");
+    parts[0] = stem + en; return parts.join(" ");
+  },
+  keepCase(orig, rep) { return /^\p{Lu}/u.test(orig) ? rep.charAt(0).toUpperCase() + rep.slice(1) : rep; },
+  alts(text, f) {
+    const w = text.slice(f.s, f.e); const out = []; const r = this.look(w);
+    if (f.cat === "comodin" && normTxt(w) === "muy") { const m = text.slice(f.e).match(/^\s+(\p{L}+)/u); if (m) { const r2 = this.look(m[1]); if (r2 && r2.int.length) { const end = f.e + m[0].length; r2.int.slice(0, 4).forEach((x) => out.push({ label: x, s: f.s, e: end, t: this.keepCase(w, x) })); } } }
+    if (r && out.length < 6) (r.int.length && f.cat !== "comodin" ? [...r.int, ...r.syn] : r.syn).filter((x) => normTxt(x) !== normTxt(w)).slice(0, 6 - out.length).filter((x, i, a) => a.indexOf(x) === i).forEach((x) => { const cj = r.verb && normTxt(w) !== normTxt(r.lemma) ? this.conj(w, r.lemma, x) : x; if (r.verb && !cj) return; out.push({ label: cj, s: f.s, e: f.e, t: this.keepCase(w, cj) }); });
+    if ((["muletillas", "tuyas", "mente"].includes(f.cat) || (f.cat === "comodin" && ["bastante", "demasiado", "un poco", "super"].includes(normTxt(w)))) && normTxt(w) !== "muy") { let s = f.s, e = f.e; if (text[e] === ",") e++; if (text[e] === " ") e++; else if (text[s - 1] === " ") s--; const before = text.slice(0, s).replace(/\s+$/, ""); const cap = !before || /[.!?…\n—¿¡]$/.test(before); out.unshift({ label: "Quitarla", s, e, t: "", remove: true, cap }); }
+    return out;
+  },
+};
+
+/* ---------- Diccionario (modal) ---------- */
+function thesResultsHTML(word) {
+  const r = Thes.look(word); const chip = (w, lab) => `<button class="alt" data-thes-use="${esc(w)}" title="${lab ? "Infinitivo: " + esc(lab) : ""}">${esc(w)}</button>`;
+  const list = (arr, conj) => arr.map((w, i) => { const c = conj && conj[i] && conj[i].form; return chip(c || w, c ? w : ""); }).join("");
+  if (!word.trim()) return `<p class="muted">Escribe una palabra o selecciónala en tu texto.</p>`;
+  if (!r) return `<p class="muted">Todavía no tengo sinónimos para «${esc(word)}». Puedes agregar los tuyos abajo y INK los recordará.</p>`;
+  const verbNote = r.verb && r.conjSyn && r.conjSyn.some((x) => x.form) ? `<p class="muted" style="font-size:12.5px;margin:4px 0 0">Conjugados como «${esc(word)}». Los que no pude conjugar aparecen en infinitivo.</p>` : r.verb ? `<p class="muted" style="font-size:12.5px;margin:4px 0 0">En infinitivo: conjúgalos como necesites.</p>` : "";
+  return `<p class="muted" style="font-size:12.5px;margin:0 0 8px">${r.lemma !== normTxt(word) && r.lemma !== word.toLowerCase() ? `De «${esc(r.lemma)}». ` : ""}${r.mine ? "Incluye tus sinónimos." : ""}</p>
+    ${r.int.length ? `<h4>Más intenso</h4><div class="alts">${list(r.int)}</div>` : ""}
+    ${r.syn.length ? `<h4>Sinónimos</h4><div class="alts">${list(r.syn, r.conjSyn)}</div>${verbNote}` : ""}
+    ${r.ant.length ? `<h4>Antónimos</h4><div class="alts">${list(r.ant, r.conjAnt)}</div>` : ""}`;
+}
+function openThesModal(word, onUse) {
+  openModal(`<h2>Sinónimos y antónimos ${helpBtn("room.sinonimos")}</h2><input class="input" id="th-q" value="${esc(word || "")}" placeholder="Escribe una palabra" autocomplete="off">
+    <div id="th-res" class="th-res"></div>
+    <details class="sec" style="margin-top:14px"><summary><span class="st" style="font-size:15px">Agregar tus propios sinónimos</span><span class="sd">Para palabras que no están o para tus favoritos.</span></summary><div class="sb">
+      <div class="field"><label>Sinónimos (separados por comas)</label><input class="input" id="th-ms"></div><div class="field"><label>Antónimos (separados por comas)</label><input class="input" id="th-ma"></div><button class="btn small" id="th-save">Guardar para «<span id="th-w"></span>»</button></div></details>
+    <div class="foot">${onUse ? `<span class="muted" style="font-size:12.5px">Toca una palabra para usarla.</span>` : `<span class="muted" style="font-size:12.5px">Toca una palabra para copiarla.</span>`}<span class="spacer"></span><button class="btn primary" data-act="modal-close">Listo</button></div>`, (m) => {
+    const q = m.querySelector("#th-q"), res = m.querySelector("#th-res");
+    const draw = () => { res.innerHTML = thesResultsHTML(q.value.trim()); m.querySelector("#th-w").textContent = q.value.trim(); const mine = (Store.meta().thes || {})[normTxt(q.value.trim())]; m.querySelector("#th-ms").value = mine ? mine.syn.join(", ") : ""; m.querySelector("#th-ma").value = mine ? mine.ant.join(", ") : ""; };
+    draw(); let t = 0; q.addEventListener("input", () => { clearTimeout(t); t = setTimeout(draw, 200); }); setTimeout(() => q.focus(), 30);
+    res.addEventListener("click", async (e) => { const b = e.target.closest("[data-thes-use]"); if (!b) return; const w = b.dataset.thesUse; if (onUse) { closeModal(); onUse(w); } else { try { await navigator.clipboard.writeText(w); toast(`«${w}» copiada`, { glyph: "✓" }); } catch (err) { toast(w); } } });
+    m.querySelector("#th-save").onclick = () => { const k = normTxt(q.value.trim()); if (!k) return; const split = (v) => v.split(",").map((x) => x.trim()).filter(Boolean); const th = { ...(Store.meta().thes || {}) }; const syn = split(m.querySelector("#th-ms").value), ant = split(m.querySelector("#th-ma").value); if (syn.length || ant.length) th[k] = { syn, ant }; else delete th[k]; Store.setMeta({ thes: th }, { quiet: true }); draw(); toast("Guardado en tu diccionario", { glyph: "✓" }); };
+  });
+}
+function openThesFromRoom() {
+  const ta = $("#ms"); if (!ta) { openThesModal(""); return; }
+  let s = ta.selectionStart, e = ta.selectionEnd; const v = ta.value;
+  if (s === e) { const L = v.slice(0, s).match(/[\p{L}'-]*$/u)[0].length, Rr = v.slice(s).match(/^[\p{L}'-]*/u)[0].length; s -= L; e += Rr; }
+  let word = v.slice(s, e).trim(); if (word.length > 40 || /\n/.test(word)) { word = ""; }
+  const range = word ? [s, e, word] : null;
+  openThesModal(word, range ? (w) => { const t2 = $("#ms"); if (!t2 || t2.value.slice(range[0], range[1]) !== range[2]) { toast("El texto cambió; vuelve a seleccionar la palabra."); return; } const rep2 = Thes.keepCase(range[2], w); t2.value = t2.value.slice(0, range[0]) + rep2 + t2.value.slice(range[1]); t2.dispatchEvent(new Event("input")); t2.focus(); t2.setSelectionRange(range[0], range[0] + rep2.length); toast(`Cambiado por «${rep2}»`, { glyph: "✓" }); } : null);
+}
+
+/* ================= Ayuda contextual ================= */
+const HELP = {
+  "idea.tipos": { t: "Tipos de idea", items: [
+    ["✦ Chispa", "Una idea suelta y rápida: una frase, una imagen, un «¿y si…?». Es la semilla; después puede crecer.", "¿Y si las campanas solo sonaran cuando alguien miente?"],
+    ["«» Voz", "Algo que diría un personaje, con sus palabras. Ayuda a descubrir cómo habla. Si eliges de quién es, aparece en su ficha.", "—No todas las campanas llaman a misa."],
+    ["¶ Escena", "Un fragmento que podría ir al libro tal cual: una escena escrita, aunque sea en borrador. Puedes añadirla al final de un capítulo.", "Ilse subió los escalones contando cada peldaño…"],
+    ["◷ Trasfondo", "El pasado de un personaje o del mundo: lo que pasó antes del libro y explica por qué son como son. Muchas veces no sale en la historia, pero tú necesitas saberlo.", "La abandonaron en la puerta del monasterio durante una tormenta."],
+    ["✎ Nota", "Una reflexión para ti: dudas, pendientes, investigación, decisiones de trama.", "Revisar si el capítulo 3 contradice la edad de Tomás."] ] },
+  "bandeja": { t: "La Bandeja", b: "Aquí llegan las ideas que todavía no tienen libro. Es como la bandeja de entrada del correo: la idea ya está a salvo, y cuando tengas un momento la envías a su libro. Así nunca vuelve a formarse un «mar de notas»." },
+  "home.semana": { t: "Tu semana", b: "Cada círculo es un día. Se marca cuando escribes en algún capítulo. No es una racha que se rompa ni un castigo: solo te muestra tu constancia, sin importar cuánto escribiste." },
+  "home.rescate": { t: "Una idea para rescatar", b: "INK te muestra una idea que no has tocado en días. A veces una chispa vieja es justo lo que necesita la escena de hoy." },
+  "libro.estados": { t: "Estados de un capítulo", items: [["Por escribir", "Todavía no tiene texto: es un lugar reservado en tu estructura."], ["Borrador", "Ya tiene texto, aunque sea imperfecto. INK lo marca solo al empezar a escribir."], ["En revisión", "Lo estás corrigiendo o reescribiendo."], ["Terminado", "Está listo. Al exportar el libro puedes incluir solo los terminados."]] },
+  "libro.tipo": { t: "Novela o cuento", b: "Una novela se divide en capítulos. Un cuento es más corto y usa secciones; INK crea la primera por ti. Puedes cambiarlo cuando quieras." },
+  "libro.secuela": { t: "Continuación de otro libro", b: "Si este libro es una secuela, elige el libro anterior. Así puedes traer a sus personajes como nuevas versiones: heredan todo, pero puedes cambiarles la edad, la ropa o lo que haya cambiado, sin tocar el original." },
+  "libro.tablero": { t: "Tablero del libro", b: "Tu muro de inspiración visual: lugares, mapas, objetos, época, atmósfera. Arrastra, pega o sube imágenes y escríbeles una nota." },
+  "pers.roles": { t: "Roles", items: [["Protagonista", "Quien vive la historia principal y cambia en ella."], ["Antagonista", "Quien se opone al protagonista; no siempre es un villano."], ["Secundario", "Acompaña, ayuda o complica, pero la historia no es suya."], ["Mencionado", "Se habla de él, pero casi no aparece: un padre ausente, una leyenda, alguien del pasado."]] },
+  "pers.apodos": { t: "Apodos y otros nombres", b: "Escribe cómo lo llaman los demás, separados por comas: «la campanera, Ilsi». INK los usa para reconocerlo cuando escribes y sugerirte quién está en la escena." },
+  "sec.apariencia": { t: "Apariencia", b: "Lo que se ve: estatura, complexión, rasgos, ropa habitual, marcas. Piensa en lo primero que notaría alguien al conocerlo.", ex: "Delgada, manos con callos, cabello cobrizo siempre trenzado.", q: ["¿Qué detalle físico lo delata a primera vista?", "¿Cómo cambia su aspecto cuando está cansado o feliz?"] },
+  "sec.personalidad": { t: "Personalidad", b: "Cómo es por dentro y cómo se comporta. Rasgos: tres o cuatro palabras que lo definan. Virtudes y defectos: lo mejor y lo peor. Las barras de temperamento son una brújula rápida; mueve solo las que te ayuden.", ex: "Rasgos: curiosa, terca, leal. Defecto: no pide ayuda aunque la necesite.", q: ["¿Qué haría si nadie lo estuviera mirando?", "¿Qué virtud suya puede volverse un problema?"] },
+  "sec.motivacion": { t: "Motivación", b: "El motor de su historia. El deseo es lo que cree que quiere. La necesidad es lo que de verdad le hace falta, aunque no lo sepa. El miedo lo frena. La herida es algo del pasado que todavía le duele. La mentira que cree es una idea equivocada sobre sí mismo o el mundo; superarla suele ser su arco.", ex: "Deseo: descubrir quién toca la campana trece. Necesidad: aceptar que merece un hogar. Mentira: «si me acerco a alguien, me abandonará».", q: ["¿Qué pasa si consigue lo que desea?", "¿Qué tendría que perder para crecer?"] },
+  "sec.secreto": { t: "Contradicción y secreto", b: "Las contradicciones hacen humanos a los personajes: valiente con extraños y cobarde con su familia. El secreto es lo que nadie sabe, o casi nadie; suele ser una bomba de tiempo para la trama.", ex: "Contradicción: predica la calma, pero explota con su hermano. Secreto: fue ella quien tocó la campana aquella noche." },
+  "sec.voz": { t: "Voz", b: "Cómo habla: ritmo, vocabulario, muletillas, acento, lo que evita decir. En frases típicas escribe algo que solo diría este personaje. Las ideas tipo Voz ligadas a él también aparecen aquí.", ex: "Habla poco y en frases cortas. Cuando se emociona, cuenta campanadas.", q: ["Si leyeras una línea suya sin nombre, ¿la reconocerías?"] },
+  "sec.gestos": { t: "Gestos y manías", b: "Lo que hace con el cuerpo: cómo camina, qué hace con las manos, cómo se ríe, qué costumbres tiene. Sirve para mostrar emociones sin decirlas, y es oro para quien vaya a animarlo.", ex: "Se frota las palmas cuando piensa. Camina rápido, con los hombros hacia adelante." },
+  "sec.trasfondo": { t: "Trasfondo", b: "Su historia antes del libro: de dónde viene, qué vivió, qué lo marcó. No todo tiene que aparecer en el texto, pero te ayuda a escribirlo con coherencia." },
+  "sec.arco": { t: "Arco", b: "Cómo cambia a lo largo del libro. Describe quién es al inicio y quién es al final. Si no cambia, pregúntate si debería o si su función es justamente no cambiar.", ex: "Al inicio: desconfía de todos. Al final: pide ayuda por primera vez." },
+  "sec.notas": { t: "Notas", b: "Todo lo que no cabe en otro lado: ideas sueltas, pendientes, dudas sobre este personaje." },
+  "pers.temper": { t: "Temperamento", b: "Barras rápidas para ubicar su forma de ser entre dos extremos. No es un test psicológico: es una brújula. Las que no muevas quedan sin definir y no aparecen en la hoja PDF." },
+  "pers.relaciones": { t: "Tipos de relación", items: [["Familia", "Lazos de sangre o crianza. Usa la nota para precisar: «hermana mayor»."], ["Pareja", "Relación amorosa, presente o pasada."], ["Amistad", "Aliados por afecto."], ["Rivalidad", "Compiten, pero no necesariamente se odian."], ["Enemistad", "Se oponen y se hacen daño."], ["Mentor y aprendiz", "Uno enseña al otro. La flecha indica quién es el mentor."], ["Complicado", "Cuando no cabe en una sola palabra: «le debe la vida, pero no lo perdona»."]] },
+  "pers.versiones": { t: "Versiones", b: "Cuando traes un personaje a una secuela, INK crea una nueva versión ligada a la original. Así puedes cambiarle la edad, la ropa o la personalidad sin perder quién era antes, y comparar ambas en «Antes y ahora»." },
+  "pers.referencias": { t: "Referencias", b: "Imágenes que te ayudan a imaginarlo: alguien que se le parece, su ropa, su casa, objetos importantes. Toca una para escribirle una nota o usarla como avatar." },
+  "avatar.motores": { t: "Formas de crear un avatar", items: [["Sprites anime", "Ilustración estilo novela visual con tus sprites de Sutemo: tres bases, peinados, atuendos y expresiones."], ["DiceBear", "Seis estilos ilustrados con tonos de piel diversos. Necesita internet para diseñar."], ["Mi imagen", "Tu propia foto o ilustración de referencia. Encuadras el rostro y puedes subir una imagen por emoción."]] },
+  "avatar.atuendos": { t: "Atuendos", b: "Cada atuendo guarda su propia ropa, peinado y colores. «Nuevo» copia el actual para que solo cambies lo necesario: en casa, en el trabajo, en batalla." },
+  "avatar.emociones": { t: "Emociones", b: "Las diez emociones del personaje. Toca una para verla en grande. Las usas en el panel de personajes en escena y aparecen en la hoja PDF." },
+  "escena.panel": { t: "Personajes en escena", items: [["En escena", "Está presente físicamente. Rostro a color."], ["Mención", "Se habla de él, pero no está. Rostro atenuado."], ["Pensamiento", "Está en la mente de alguien. Borde punteado, como un eco."]], b: "INK detecta nombres y apodos en el texto y te pregunta; nunca agrega a nadie solo. Si separas escenas con una línea * * *, cada escena tiene su propio elenco. En un diálogo con raya, se ilumina quien habla." },
+  "room.editor": { t: "Modo Editor", b: "Revisa tu estilo sin interrumpirte mientras escribes. El texto se vuelve de solo lectura y aparecen marcas: rojo para revisar, dorado para considerar y punteado para detalles opcionales. Cada sugerencia trae alternativas que puedes aplicar con un toque." },
+  "room.sinonimos": { t: "Sinónimos", b: "Selecciona una palabra en tu texto y abre Sinónimos para ver sinónimos, antónimos y palabras más intensas. Toca una para reemplazar la palabra seleccionada. Los verbos se conjugan en la misma forma: «miraba» → «observaba». Si una palabra no está, puedes agregar tus propios sinónimos." },
+  "room.enfoque": { t: "Modo enfoque", b: "Atenúa la barra y los paneles para que solo quede tu texto. Pasa el cursor por arriba para verlos de nuevo." },
+  "editor.legibilidad": { t: "Legibilidad", b: "Usa el índice Fernández-Huerta, pensado para español: más alto es más fácil de leer. En narrativa, entre 60 y 80 suele ser cómodo. Frases más cortas y palabras más simples lo suben; no es una meta, solo una pista." },
+  "ed.signos": { t: "Signos de apertura", b: "En español, preguntas y exclamaciones abren con ¿ y ¡. INK coloca el signo al inicio de la frase; en preguntas parciales como «Si vienes, ¿me avisas?» revisa antes de aceptar." },
+  "ed.dialogo": { t: "Rayas de diálogo", b: "El diálogo en español se marca con raya (—), pegada a la palabra: «—Hola —dijo». El guion corto (-) es para palabras compuestas." },
+  "ed.espacios": { t: "Espacios y puntuación", b: "Espacios dobles, o espacios antes de comas y puntos. Son invisibles al escribir, pero se notan al imprimir." },
+  "ed.tuyas": { t: "Tus muletillas", b: "Palabras que tú sabes que repites. Escríbelas en el panel, separadas por comas, e INK las vigila en todos tus capítulos." },
+  "ed.muletillas": { t: "Muletillas", b: "Palabras de relleno como «entonces», «de repente» o «realmente». Prueba primero a quitarla: si la frase no pierde sentido, no la necesitabas. Si sí la necesitas, INK te sugiere alternativas." },
+  "ed.repeticion": { t: "Repeticiones cercanas", b: "La misma palabra aparece dos veces en pocas líneas. A veces es intencional, para dar ritmo; si no, usa un sinónimo o reescribe una de las dos frases." },
+  "ed.mente": { t: "Adverbios en -mente", b: "Uno de vez en cuando está bien; muchos vuelven pesada la prosa. Suele funcionar mejor un verbo más preciso: «caminó lentamente» → «arrastró los pies»." },
+  "ed.larga": { t: "Frases muy largas", b: "Más de 40 palabras sin un punto. Pueden funcionar para crear agobio o velocidad, pero si no es la intención, divídela." },
+  "ed.que": { t: "Exceso de «que»", b: "Cuatro o más «que» en una frase suelen enredarla. Prueba a dividirla o a cambiar alguna construcción." },
+  "ed.comodin": { t: "Palabras comodín", b: "Palabras vagas como «cosa», «algo» o «muy». Una palabra precisa pinta mejor la imagen: «muy cansada» → «exhausta»." },
+  "ed.tipografia": { t: "Detalles tipográficos", b: "Opcionales, de estilo editorial: el carácter de puntos suspensivos (…) en lugar de tres puntos, y comillas españolas « » en lugar de las rectas." },
+  "ajustes.sync": { t: "Sincronización", b: "Mantiene tus libros iguales en tu celular y tu computadora. Si te quedas sin internet, INK guarda todo en el dispositivo y lo envía al volver la conexión." },
+  "ajustes.respaldo": { t: "Respaldo", b: "Un archivo con absolutamente todo tu trabajo. Guárdalo en Google Drive o iCloud. Con «Restaurar respaldo» lo recuperas en cualquier dispositivo, y lo restaurado se combina con lo que ya tienes." },
+  "ajustes.keep": { t: "Importar de Google Keep", b: "Trae tus notas de Keep a la Bandeja. Si una etiqueta de Keep se llama igual que uno de tus libros, la nota va directo a ese libro." },
+};
+function helpBtn(key, cls = "") { return HELP[key] ? `<button type="button" class="help ${cls}" data-help="${key}" aria-label="¿Qué es esto?" title="¿Qué es esto?">?</button>` : ""; }
+function openHelp(key, anchor) {
+  const h = HELP[key]; if (!h) return; closeHelp();
+  const pop = document.createElement("div"); pop.id = "help-pop"; pop.setAttribute("role", "dialog");
+  pop.innerHTML = `<div class="hp-h"><b>${esc(h.t)}</b><button class="icon-btn" data-help-close aria-label="Cerrar">${ico("x")}</button></div>
+    ${h.b ? `<p>${esc(h.b)}</p>` : ""}
+    ${h.items ? `<dl>${h.items.map(([t, d, ex]) => `<dt>${esc(t)}</dt><dd>${esc(d)}${ex ? `<span class="hp-ex">${esc(ex)}</span>` : ""}</dd>`).join("")}</dl>` : ""}
+    ${h.ex ? `<p class="hp-ex"><b>Ejemplo:</b> ${esc(h.ex)}</p>` : ""}
+    ${h.q ? `<div class="hp-q"><b>Preguntas que ayudan</b><ul>${h.q.map((q) => `<li>${esc(q)}</li>`).join("")}</ul></div>` : ""}`;
+  document.body.appendChild(pop);
+  const r = anchor.getBoundingClientRect(); const pw = Math.min(360, innerWidth - 24); pop.style.width = pw + "px";
+  if (innerWidth < 620) { pop.classList.add("sheet"); } else { let x = r.left + r.width / 2 - pw / 2; x = Math.max(12, Math.min(innerWidth - pw - 12, x)); pop.style.left = x + "px"; const below = r.bottom + 8; pop.style.top = below + "px"; const ph = pop.offsetHeight; if (below + ph > innerHeight - 12 && r.top - ph - 8 > 12) pop.style.top = r.top - ph - 8 + "px"; else if (below + ph > innerHeight - 12) pop.style.top = Math.max(12, innerHeight - ph - 12) + "px"; }
+  setTimeout(() => document.addEventListener("click", closeHelpOut, true), 0);
+}
+function closeHelpOut(e) { const p = $("#help-pop"); if (p && (p.contains(e.target) && !e.target.closest("[data-help-close]"))) return; if (e.target.closest && e.target.closest("[data-help]")) return; closeHelp(); }
+function closeHelp() { const p = $("#help-pop"); if (p) p.remove(); document.removeEventListener("click", closeHelpOut, true); }
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-help]"); if (!b) return; e.preventDefault(); e.stopPropagation(); const open = $("#help-pop"); if (open && open.dataset.k === b.dataset.help) { closeHelp(); return; } openHelp(b.dataset.help, b); const p = $("#help-pop"); if (p) p.dataset.k = b.dataset.help; }, true);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeHelp(); });
+window.addEventListener("hashchange", closeHelp);
 
 /* ================= Fase 3 · Modo Editor ================= */
 const ED_CATS = {
@@ -2421,7 +2811,7 @@ const Ed = {
   on: false, res: null, filter: null, sel: null,
   enter(cid) { const ta = $("#ms"); if (ta) App.saveChapterText(cid, ta.value, countWords(ta.value)); this.on = true; this.filter = null; this.sel = null; App.render(); },
   exit(pos) { this.on = false; App.render(); if (pos) setTimeout(() => { const ta = $("#ms"); if (!ta) return; ta.focus(); ta.setSelectionRange(pos[0], pos[1]); const r = ta.getBoundingClientRect(); const lh = 32; const before = ta.value.slice(0, pos[0]).split("\n").length; window.scrollTo({ top: window.scrollY + r.top + Math.max(0, (before - 3) * lh * 0.6) - 160, behavior: "smooth" }); }, 60); },
-  data(ch) { const p = Store.get("projects", ch.projectId); const names = Data.characters(ch.projectId).flatMap((c) => Cast.names(c).flatMap((n) => n.split(/\s+/))); const r = edAnalyze(ch.text || "", { tics: Store.meta().tics || [], names }); const ign = new Set(ch.ignored || []); const off = Store.meta().edOff || {}; r.all = r.F; r.F = r.F.filter((f) => !ign.has(f.id)); r.vis = r.F.filter((f) => !off[f.cat]); return r; },
+  data(ch) { const p = Store.get("projects", ch.projectId); const names = Data.characters(ch.projectId).flatMap((c) => Cast.names(c).flatMap((n) => n.split(/\s+/))); const r = edAnalyze(ch.text || "", { tics: Store.meta().tics || [], names }); const ign = new Set(ch.ignored || []); const off = Store.meta().edOff || {}; r.all = r.F; r.F = r.F.filter((f) => !ign.has(f.id)); const T = ch.text || ""; r.F.forEach((f) => { if (["muletillas", "tuyas", "comodin", "repeticion", "mente"].includes(f.cat)) f.alts = Thes.alts(T, f); }); r.vis = r.F.filter((f) => !off[f.cat]); return r; },
   html(ch) {
     const r = (this.res = this.data(ch)); const text = ch.text || ""; let out = "", pos = 0;
     const vis = r.vis.filter((f) => !this.filter || f.cat === this.filter);
@@ -2437,14 +2827,14 @@ const Ed = {
     return `<header><h3>Sugerencias</h3><button class="icon-btn" data-ed-act="close" aria-label="Cerrar">${ico("x")}</button></header>
       <div class="list">
         <div class="ed-stats"><div><b>${fmt(s.words)}</b><span>palabras</span></div><div><b>${s.avg.toFixed(1)}</b><span>palabras por frase</span></div><div><b>${s.words ? Math.round(s.fh) : "—"}</b><span>${s.words ? fhLabel(s.fh) : "Legibilidad"}</span></div><div><b>${s.dlg}</b><span>líneas de diálogo</span></div></div>
-        <p class="muted" style="font-size:12px;margin:0">La legibilidad usa el índice Fernández-Huerta para español: más alto es más fácil de leer. En narrativa, entre 60 y 80 suele ser cómodo.</p>
+        <p class="muted" style="font-size:12px;margin:0">Toca ? para saber qué significa cada cosa. ${helpBtn("editor.legibilidad")} Legibilidad ${helpBtn("room.editor")} Modo Editor</p>
         ${s.top.length ? `<div><h4>Las palabras que más usas</h4><div class="chips">${s.top.map(([w, n]) => `<span class="pill">${esc(w)} ${n}</span>`).join("")}</div></div>` : ""}
-        <div><h4>Qué revisar</h4><div class="ed-cats">${Object.entries(ED_CATS).map(([k, c]) => `<button class="ed-cat ${off[k] ? "off" : ""}" data-ed-act="filter" data-v="${k}" aria-pressed="${this.filter === k}"><span class="g ed-${k}">${c.g}</span><span class="l">${c.label}</span><b>${counts[k] || 0}</b></button>`).join("")}</div>
+        <div><h4>Qué revisar</h4><div class="ed-cats">${Object.entries(ED_CATS).map(([k, c]) => `<div class="ed-cat ${off[k] ? "off" : ""}" role="button" tabindex="0" data-ed-act="filter" data-v="${k}" aria-pressed="${this.filter === k}"><span class="g ed-${k}">${c.g}</span><span class="l">${c.label}</span>${helpBtn("ed." + k)}<b>${counts[k] || 0}</b></div>`).join("")}</div>
           ${this.filter ? `<div class="row" style="margin-top:8px"><button class="btn small ghost" data-ed-act="filter" data-v="">Ver todas</button>${fixable(this.filter) ? `<button class="btn small" data-ed-act="fixall" data-v="${this.filter}">Corregir las ${fixable(this.filter)}</button>` : ""}<button class="btn small ghost" data-ed-act="toggle-cat" data-v="${this.filter}">${off[this.filter] ? "Volver a vigilar" : "No vigilar esto"}</button></div><p class="muted" style="font-size:12.5px;margin:8px 0 0">${ED_CATS[this.filter].tip}</p>` : ""}
         </div>
         <div><h4>Tus muletillas</h4><input class="input" id="ed-tics" value="${esc((Store.meta().tics || []).join(", "))}" placeholder="Palabras que sabes que repites, separadas por comas"></div>
         <div class="ed-items">${list.map((f) => { const i = r.F.indexOf(f); const ctx = (ch.text || "").slice(Math.max(0, f.s - 38), f.s); const after = (ch.text || "").slice(f.e, f.e + 38);
-          return `<div class="ed-item ${this.sel === i ? "sel" : ""}" data-ed-item="${i}"><div class="k"><span class="g ed-${f.cat}">${ED_CATS[f.cat].g}</span>${ED_CATS[f.cat].label}</div><p class="x">…${esc(ctx.replace(/\s+/g, " "))}<mark class="ed-${f.cat}">${esc((ch.text || "").slice(f.s, f.e)) || "⎵"}</mark>${esc(after.replace(/\s+/g, " "))}…</p><p class="m">${esc(f.msg)}</p>
+          return `<div class="ed-item ${this.sel === i ? "sel" : ""}" data-ed-item="${i}"><div class="k"><span class="g ed-${f.cat}">${ED_CATS[f.cat].g}</span>${ED_CATS[f.cat].label}</div><p class="x">…${esc(ctx.replace(/\s+/g, " "))}<mark class="ed-${f.cat}">${esc((ch.text || "").slice(f.s, f.e)) || "⎵"}</mark>${esc(after.replace(/\s+/g, " "))}…</p><p class="m">${esc(f.msg)}</p>${f.alts && f.alts.length ? `<div class="alts"><span>Prueba con:</span>${f.alts.map((a, j) => `<button class="alt ${a.remove ? "rm" : ""}" data-ed-act="alt" data-v="${i}" data-j="${j}" title="${a.remove ? "Quitar la palabra" : "Reemplazar por «" + esc(a.t) + "»"}">${esc(a.label)}</button>`).join("")}<button class="alt more" data-ed-act="thes-more" data-v="${i}">Más sinónimos…</button></div>` : ["repeticion", "comodin", "muletillas", "tuyas", "mente"].includes(f.cat) ? `<div class="alts"><button class="alt more" data-ed-act="thes-more" data-v="${i}">Buscar sinónimos…</button></div>` : ""}
           <div class="row">${f.fix ? `<button class="btn small" data-ed-act="fix" data-v="${i}">Corregir</button>` : ""}<button class="btn small ghost" data-ed-act="go" data-v="${i}">Ver</button><button class="btn small ghost" data-ed-act="edit" data-v="${i}">Editar aquí</button><span class="spacer"></span><button class="btn small ghost" data-ed-act="ignore" data-v="${i}">Ignorar</button></div></div>`; }).join("") || `<div class="empty" style="padding:24px 8px"><div style="font-family:var(--serif);font-size:32px;color:var(--accent-2)">✦</div><h3 style="font-size:18px">Nada que revisar aquí</h3><p>${this.filter ? "Esta categoría está limpia." : "Tu texto se ve limpio. Buen trabajo."}</p></div>`}</div>
       </div>`;
   },
@@ -2472,6 +2862,8 @@ const Ed = {
       else if (a === "close") $("#ed-panel").classList.remove("open");
       else if (a === "filter") { this.filter = v || null; this.sel = null; this.refresh(cid); }
       else if (a === "toggle-cat") { const off = { ...(Store.meta().edOff || {}) }; off[v] = !off[v]; Store.setMeta({ edOff: off }, { quiet: true }); this.refresh(cid); }
+      else if (a === "alt" && f && f.alts) { const al = f.alts[Number(b.dataset.j)]; if (!al) return; let t = al.t; this.applyFixes(cid, [{ s: al.s, e: al.e, t }]); if (al.remove && al.cap) { const ch = Store.get("chapters", cid); const tx = ch.text; const k = al.s; if (tx[k]) { const nt = tx.slice(0, k) + tx[k].toUpperCase() + tx.slice(k + 1); Store.put("chapters", { ...ch, text: nt }, { quiet: true }); this.refresh(cid); } } toast(al.remove ? "Palabra quitada" : `Cambiado por «${al.t}»`, { glyph: "✓" }); }
+      else if (a === "thes-more" && f) { const ch = Store.get("chapters", cid); openThesModal(ch.text.slice(f.s, f.e), (w) => { this.applyFixes(cid, [{ s: f.s, e: f.e, t: Thes.keepCase(ch.text.slice(f.s, f.e), w) }]); toast(`Cambiado por «${w}»`, { glyph: "✓" }); }); }
       else if (a === "fix" && f) { this.applyFixes(cid, [f.fix]); toast("Corregido", { glyph: ED_CATS[f.cat].g }); }
       else if (a === "fixall") { const fx = this.res.F.filter((x) => x.cat === v && x.fix); const seen = []; const ok = fx.filter((x) => { if (seen.some((y) => x.fix.s < y.e && y.s < x.fix.e + (x.fix.s === x.fix.e ? 1 : 0))) return false; seen.push({ s: x.fix.s, e: Math.max(x.fix.e, x.fix.s + 1) }); return true; }).map((x) => x.fix); this.applyFixes(cid, ok); toast(ok.length === 1 ? "1 corrección aplicada" : `${ok.length} correcciones aplicadas`, { glyph: ED_CATS[v].g }); }
       else if (a === "ignore" && f) { const ch = Store.get("chapters", cid); const ig = [...new Set([...(ch.ignored || []), f.id])].slice(-500); Store.put("chapters", { ...ch, ignored: ig }, { quiet: true }); this.refresh(cid); }
@@ -2705,7 +3097,7 @@ function openCapture(pid, chId, pre = {}) {
   };
   openModal(`<h2>¿Qué se te ocurrió?</h2>
     <textarea class="cap" id="cap-text" spellcheck="true" lang="es" placeholder="Una frase, una escena, algo que diría un personaje…"></textarea>
-    <div class="lbl">Es una</div><div id="cap-types"></div>
+    <div class="lbl">Es una ${helpBtn("idea.tipos")}</div><div id="cap-types"></div>
     <div class="lbl">Para el libro</div><div id="cap-projects"></div><div id="cap-chars"></div>
     <div class="foot"><span class="hint">Ctrl + Enter para guardar</span><span class="spacer"></span><button class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" id="cap-save">Guardar idea</button></div>`, (box) => {
     draw();
@@ -2970,7 +3362,9 @@ document.addEventListener("click", (e) => {
     case "del-char": deleteCharacter(d.id); break;
     case "sheet": openSheetDialog(d.id); break;
     case "review": Ed.enter(App.route.args[0]); break;
+    case "thes": openThesFromRoom(); break;
     case "book-export": openBookExport(d.p); break;
+    case "rb-open": openRefViewer(d.id); break;
     case "sb-setup": openSBSetup(); break;
     case "sb-now": localStorage.removeItem("ink:sb:since"); Store.pullSB(); toast("Sincronizando…"); break;
     case "sb-out": confirmBox("¿Cerrar sesión de tu nube?", "Tus datos siguen en tu nube y en este dispositivo. Dejarán de sincronizarse aquí hasta que vuelvas a entrar.", "Cerrar sesión", () => { SB.setSess(null); Store.sb = false; Store.setStatus("local"); App.render(); }); break;
@@ -3007,6 +3401,7 @@ document.addEventListener("click", (e) => {
         Store.list("ideas").filter((i) => i.projectId === p.id && (i.characterIds || []).length).forEach((i) => Store.put("ideas", { ...i, characterIds: [] }, { quiet: true }));
         Store.list("ideas").filter((i) => i.projectId === p.id).forEach((i) => Store.put("ideas", { ...i, projectId: null, chapterId: null }, { quiet: true }));
         Store.list("projects").filter((x) => x.parentId === p.id).forEach((x) => Store.put("projects", { ...x, parentId: null }, { quiet: true }));
+        Img.removeOwned("project", p.id); Store.list("images").filter((i) => i.projectId === p.id).forEach((i) => Store.remove("images", i.id));
         Store.remove("projects", p.id); location.hash = "#/libros";
       });
       break;
@@ -3081,6 +3476,7 @@ document.addEventListener("change", async (e) => {
     try { const url = await compressImage(el.files[0]); const p = Store.get("projects", d.p); Store.put("projects", { ...p, cover: url }); toast("Portada actualizada", { glyph: "✓" }); }
     catch (err) { toast("No se pudo leer esa imagen. Prueba con JPG o PNG."); }
   } else if (a === "import" && el.files[0]) importBackup(el.files[0]);
+  else if (a === "rb-add" && el.files.length) { rbAddFiles(el.files, { owner: d.owner, ownerId: d.id, projectId: d.owner === "project" ? d.id : Store.get("characters", d.id)?.projectId }); }
   else if (a === "sprite-pack" && el.files[0]) { try { await Spr.install(el.files[0]); toast("Sprites cargados en este dispositivo", { glyph: "✓" }); App.render(); } catch (err) { toast("Ese archivo no es un paquete de sprites de INK."); } }
   else if (a === "ch-status") { const c = Store.get("chapters", d.id); Store.put("chapters", { ...c, status: el.value }, { quiet: true }); if (el.value === "final") toast(`«${c.title}» terminado. Un paso más cerca del libro completo.`, { glyph: "✦" }); }
   else if (a === "ch-target") { const c = Store.get("chapters", d.id); Store.put("chapters", { ...c, target: Math.max(0, parseInt(el.value, 10) || 0) || null }, { quiet: true }); }
@@ -3111,8 +3507,14 @@ window.addEventListener("storage", (e) => {
   } catch (err) { /* ignorar */ }
 });
 
+document.addEventListener("dragover", (e) => { if (rbContext() && e.dataTransfer && [...e.dataTransfer.types].includes("Files")) { e.preventDefault(); document.body.classList.add("dropping"); } });
+document.addEventListener("dragleave", (e) => { if (!e.relatedTarget) document.body.classList.remove("dropping"); });
+document.addEventListener("drop", (e) => { document.body.classList.remove("dropping"); const ctx = rbContext(); if (!ctx || !e.dataTransfer || !e.dataTransfer.files.length) return; e.preventDefault(); rbAddFiles(e.dataTransfer.files, ctx); });
+document.addEventListener("paste", (e) => { const ctx = rbContext(); if (!ctx || !e.clipboardData) return; const files = [...e.clipboardData.items].filter((i) => i.kind === "file" && /^image\//.test(i.type)).map((i) => i.getAsFile()).filter(Boolean); if (!files.length) return; e.preventDefault(); rbAddFiles(files, ctx); });
+
 /* ================= Arranque ================= */
-Store.load(); applyTheme(); App.render(); Store.connect();
+Store.load(); applyTheme(); App.render();
+Store.loadImages().then((n) => { if (n) App.changed("images"); }).catch(() => {}).finally(() => Store.connect());
 
 </script>
 </body>
