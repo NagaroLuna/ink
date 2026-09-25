@@ -1594,13 +1594,25 @@ const SB = {
   sess() { try { return JSON.parse(localStorage.getItem("ink:sb:sess") || "null"); } catch (e) { return null; } },
   setSess(s) { if (s) localStorage.setItem("ink:sb:sess", JSON.stringify(s)); else localStorage.removeItem("ink:sb:sess"); },
   ready() { const c = this.cfg(), s = this.sess(); return !!(c && c.url && c.key && s && s.refresh_token); },
-  hdr(tok) { const c = this.cfg(); return { apikey: c.key, Authorization: "Bearer " + (tok || c.key), "Content-Type": "application/json" }; },
+  hdr(tok) { const c = this.cfg(); const h = { apikey: c.key, "Content-Type": "application/json" }; const bearer = tok || (/^eyJ/.test(c.key) ? c.key : ""); if (bearer) h.Authorization = "Bearer " + bearer; return h; },
   base() { return this.cfg().url.replace(/\/+$/, ""); },
+  normUrl(u) {
+    u = String(u || "").trim().replace(/\s+/g, "");
+    const dash = u.match(/supabase\.com\/dashboard\/project\/([a-z0-9]{10,})/i); if (dash) return `https://${dash[1].toLowerCase()}.supabase.co`;
+    if (/^[a-z0-9]{15,30}$/i.test(u)) return `https://${u.toLowerCase()}.supabase.co`;
+    if (!/^https?:\/\//i.test(u) && /\.supabase\.co/i.test(u)) u = "https://" + u;
+    return u.replace(/\/(rest|auth|storage)\/v1.*$/i, "").replace(/\/+$/, "");
+  },
+  async check() {
+    let r; try { r = await fetch(this.base() + "/auth/v1/settings", { headers: this.hdr() }); } catch (e) { return { ok: false, why: "net" }; }
+    if (r.ok) return { ok: true };
+    const t = await r.text().catch(() => ""); return { ok: false, why: r.status === 401 || r.status === 403 || /api key|apikey|jwt/i.test(t) ? "key" : r.status === 404 ? "url" : "other", detail: `${r.status} ${t.slice(0, 160)}` };
+  },
   async auth(kind, email, password) {
     const path = kind === "signup" ? "/auth/v1/signup" : "/auth/v1/token?grant_type=password";
     const r = await fetch(this.base() + path, { method: "POST", headers: this.hdr(), body: JSON.stringify({ email, password }) });
     const j = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(j.error_description || j.msg || j.message || "auth");
+    if (!r.ok) throw new Error(j.error_description || j.msg || j.message || j.error || ("HTTP " + r.status));
     if (!j.access_token) return { confirm: true };
     this.saveTok(j); return { ok: true };
   },
@@ -1663,26 +1675,34 @@ Object.assign(Store, {
   },
   sbErr(e) { if (e && e.code === "auth") { this.sb = false; this.setStatus("local"); toast("Tu sesión de sincronización terminó. Vuelve a entrar desde Ajustes.", { action: "Ajustes", onAction: () => (location.hash = "#/ajustes") }); } else if (e && e.code === "retry") { this.flushSoon(500); } else this.setStatus(navigator.onLine ? "busy" : "offline"); },
 });
+function atobSafe(k) { try { return atob(String(k).split(".")[1].replace(/-/g, "+").replace(/_/g, "/")); } catch (e) { return ""; } }
 function openSBSetup() {
   const c = SB.cfg() || {};
   openModal(`<h2>Tu propia nube</h2><p class="muted" style="margin:-6px 0 14px">Conecta INK con tu proyecto de Supabase. Tus datos quedan en tu cuenta, no en la de nadie más.</p>
     <details class="sec" style="margin-bottom:14px"><summary><span class="st" style="font-size:16px">1. Preparar la base de datos</span><span class="sd">Una sola vez: copia este código y pégalo en Supabase, en SQL Editor, y toca Run.</span></summary><div class="sb"><textarea class="input" rows="6" readonly id="sb-sql" style="font-family:ui-monospace,monospace;font-size:11.5px">${esc(SB_SQL)}</textarea><div class="row" style="margin-top:8px"><button class="btn small" id="sb-copy">Copiar código</button></div></div></details>
     <div class="field"><label for="sb-url">2. Project URL</label><input id="sb-url" class="input" value="${esc(c.url || "")}" placeholder="https://abcdefgh.supabase.co"></div>
-    <div class="field"><label for="sb-key">Clave anon public</label><input id="sb-key" class="input" value="${esc(c.key || "")}" placeholder="eyJhbGciOi…"></div>
+    <div class="field"><label for="sb-key">Clave pública (Publishable key o anon)</label><input id="sb-key" class="input" value="${esc(c.key || "")}" placeholder="sb_publishable_… o eyJhbGciOi…"></div>
+    <p class="muted" style="font-size:12.5px;margin:-8px 0 12px">Las dos están en Supabase, en <b>Project Settings → API Keys</b>. Nunca uses la secret key ni la service_role.</p>
     <div class="lbl">3. Tu cuenta de INK</div>
     <div class="meta-grid"><div class="field"><label for="sb-em">Correo</label><input id="sb-em" class="input" type="email" autocomplete="username" value="${esc(SB.sess()?.user?.email || "")}"></div><div class="field"><label for="sb-pw">Contraseña</label><input id="sb-pw" class="input" type="password" autocomplete="current-password" placeholder="Mínimo 6 caracteres"></div></div>
     <p class="muted" id="sb-msg" style="font-size:13px;margin:0"></p>
     <div class="foot"><button class="btn ghost" data-act="modal-close">Cancelar</button><span class="spacer"></span><button class="btn" id="sb-up">Crear cuenta</button><button class="btn primary" id="sb-in">Entrar</button></div>`, (m) => {
     m.querySelector("#sb-copy").onclick = async () => { const ta = m.querySelector("#sb-sql"); try { await navigator.clipboard.writeText(SB_SQL); } catch (e) { ta.select(); document.execCommand("copy"); } toast("Código copiado", { glyph: "✓" }); };
     const go = async (kind) => {
-      const msg = m.querySelector("#sb-msg"); const url = m.querySelector("#sb-url").value.trim(), key = m.querySelector("#sb-key").value.trim(), em = m.querySelector("#sb-em").value.trim(), pw = m.querySelector("#sb-pw").value;
-      if (!/^(https:\/\/.+|http:\/\/localhost.*)/.test(url) || key.length < 20) { msg.textContent = "Revisa la Project URL y la clave anon: las encuentras en Supabase, en Project Settings > API."; return; }
+      const msg = m.querySelector("#sb-msg"); const url = SB.normUrl(m.querySelector("#sb-url").value), key = m.querySelector("#sb-key").value.trim().replace(/^["']|["']$/g, ""), em = m.querySelector("#sb-em").value.trim(), pw = m.querySelector("#sb-pw").value;
+      m.querySelector("#sb-url").value = url; m.querySelector("#sb-key").value = key;
+      if (!/^(https:\/\/.+|http:\/\/localhost.*)/.test(url)) { msg.textContent = "La Project URL debe verse así: https://abcdefgh.supabase.co"; return; }
+      if (/^sb_secret_/.test(key) || /service_role/.test(atobSafe(key))) { msg.textContent = "Esa es una clave secreta: no la uses aquí. Copia la Publishable key (sb_publishable_…) o la anon."; return; }
+      if (key.length < 20) { msg.textContent = "La clave parece incompleta. Cópiala completa desde Project Settings → API Keys."; return; }
       if (!em || pw.length < 6) { msg.textContent = "Escribe tu correo y una contraseña de al menos 6 caracteres."; return; }
-      SB.setCfg({ url, key }); msg.textContent = "Conectando…";
+      SB.setCfg({ url, key }); msg.textContent = "Probando la conexión…";
+      const ck = await SB.check();
+      if (!ck.ok) { msg.textContent = ck.why === "net" ? "No se pudo llegar a esa dirección. Revisa que la Project URL esté bien escrita y que el proyecto no esté pausado en Supabase." : ck.why === "key" ? "Supabase rechazó la clave. Copia de nuevo la Publishable key o la anon completa." : ck.why === "url" ? "Esa dirección no es la de un proyecto de Supabase. Usa la Project URL (https://….supabase.co)." : `Supabase respondió con un error: ${ck.detail}`; return; }
+      msg.textContent = "Conexión correcta. Entrando…";
       try { const r = await SB.auth(kind, em, pw); if (r.confirm) { msg.textContent = "Cuenta creada. Revisa tu correo para confirmarla y luego toca Entrar."; return; }
         localStorage.removeItem("ink:sb:since"); closeModal(); Store.startSB(); App.render(); toast("Conectado a tu nube. Sincronizando…", { glyph: "✓" });
         if (SPR_META && !(await SB.getFile("sprites.json"))) { const txt = await IDB.get("sprites"); if (txt) SB.putFile("sprites.json", txt).catch(() => {}); }
-      } catch (e) { msg.textContent = /invalid login|credentials/i.test(e.message) ? "Correo o contraseña incorrectos." : /registered|exists/i.test(e.message) ? "Ese correo ya tiene cuenta. Toca Entrar." : /confirm/i.test(e.message) ? "Confirma tu correo primero (revisa tu bandeja) y vuelve a intentar." : "No se pudo conectar. Revisa la URL, la clave y tu internet."; }
+      } catch (e) { const t = e.message || ""; msg.textContent = /invalid login|credentials/i.test(t) ? "Correo o contraseña incorrectos. Si aún no tienes cuenta, toca Crear cuenta." : /registered|exists/i.test(t) ? "Ese correo ya tiene cuenta. Toca Entrar." : /not confirmed|confirm/i.test(t) ? "Confirma tu correo primero (revisa tu bandeja y spam) y luego toca Entrar. O desactiva Confirm email en Authentication → Providers → Email." : /rate limit/i.test(t) ? "Supabase limitó los correos por hora. Desactiva Confirm email en Authentication → Providers → Email y vuelve a intentar." : /password/i.test(t) ? "La contraseña no cumple los requisitos de Supabase: usa al menos 6 caracteres." : /signups? not allowed|disabled/i.test(t) ? "El registro está desactivado. En Supabase activa Allow new users to sign up (Authentication → Providers → Email)." : `Supabase respondió: ${t}`; }
     };
     m.querySelector("#sb-up").onclick = () => go("signup"); m.querySelector("#sb-in").onclick = () => go("login");
   });
