@@ -653,6 +653,22 @@ body.writing{overflow-x:hidden}
 .ed-cat{cursor:pointer}
 @media (max-width:620px){.hide-sm{display:none}}
 
+/* ================= Recortador ================= */
+.cr-wrap{position:relative;display:flex;justify-content:center;background:repeating-conic-gradient(var(--surface-2) 0 25%,var(--surface) 0 50%) 0 0/20px 20px;border-radius:12px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.cr-wrap img{display:block;max-width:100%;max-height:62vh;height:auto;pointer-events:none}
+.cr-box{position:absolute;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.5),0 0 0 9999px rgba(10,12,18,.55);cursor:move;touch-action:none}
+.cr-wrap{--pad:0}
+.cr-box i{position:absolute;width:18px;height:18px;background:#fff;border:2px solid var(--accent);border-radius:50%}
+.cr-box i[data-hd="nw"]{left:-10px;top:-10px;cursor:nwse-resize}.cr-box i[data-hd="ne"]{right:-10px;top:-10px;cursor:nesw-resize}
+.cr-box i[data-hd="sw"]{left:-10px;bottom:-10px;cursor:nesw-resize}.cr-box i[data-hd="se"]{right:-10px;bottom:-10px;cursor:nwse-resize}
+@media (pointer:coarse){.cr-box i{width:26px;height:26px}.cr-box i[data-hd="nw"],.cr-box i[data-hd="sw"]{left:-14px}.cr-box i[data-hd="ne"],.cr-box i[data-hd="se"]{right:-14px}.cr-box i[data-hd="nw"],.cr-box i[data-hd="ne"]{top:-14px}.cr-box i[data-hd="sw"],.cr-box i[data-hd="se"]{bottom:-14px}}
+.cr-steps{display:flex;gap:4px;margin-left:auto}
+.cr-steps span{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.cr-steps span.cur{background:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.cr-steps span.ok{background:var(--accent-2)}
+.sheet-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px;border-radius:12px;background:var(--surface-2);margin-bottom:8px}
+.sheet-th{width:88px;height:64px;object-fit:cover;border-radius:8px}
+
 </style>
 </head>
 <body data-genre="tinta">
@@ -1824,13 +1840,14 @@ function openRefViewer(id) {
   openModal(`<div class="rv"><div class="rv-img"><img src="${i.data}" alt="">
       ${list.length > 1 ? `<button class="rv-nav prev" data-rv="${list[(idx - 1 + list.length) % list.length].id}" aria-label="Anterior">${ico("back")}</button><button class="rv-nav next" data-rv="${list[(idx + 1) % list.length].id}" aria-label="Siguiente">${ico("back")}</button>` : ""}</div>
     <div class="field" style="margin:14px 0 0"><label for="rv-cap">Nota</label><input id="rv-cap" class="input" value="${esc(i.caption || "")}" placeholder="¿Qué te inspira de esta imagen?"></div>
-    <div class="foot">${c ? `<button class="btn small" id="rv-av">${ico("image")} Usar como avatar</button>` : ""}<button class="btn small ghost danger" id="rv-del">${ico("trash")} Eliminar</button><span class="spacer"></span><span class="muted" style="font-size:12.5px">${idx + 1} de ${list.length}</span><button class="btn primary" data-act="modal-close">Listo</button></div></div>`, (m) => {
+    <div class="foot">${c ? `<button class="btn small" id="rv-av">${ico("image")} Usar como avatar</button>` : ""}<button class="btn small" id="rv-crop">${ico("image")} Recortar</button><button class="btn small ghost danger" id="rv-del">${ico("trash")} Eliminar</button><span class="spacer"></span><span class="muted" style="font-size:12.5px">${idx + 1} de ${list.length}</span><button class="btn primary" data-act="modal-close">Listo</button></div></div>`, (m) => {
     m.style.width = "min(900px,100%)";
     const cap = m.querySelector("#rv-cap"); let t = 0;
     cap.addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { const cur = Img.get(id); if (cur) Store.put("images", { ...cur, caption: cap.value.trim() }, { quiet: true }); App.pending = true; }, 400); });
     m.querySelectorAll("[data-rv]").forEach((b) => (b.onclick = () => { closeModal(); openRefViewer(b.dataset.rv); }));
     m.querySelector("#rv-del").onclick = () => { closeModal(); confirmBox("¿Eliminar esta imagen?", "Se eliminará en todos tus dispositivos.", "Eliminar", () => { Store.remove("images", id); App.render(); }); };
     const av = m.querySelector("#rv-av"); if (av) av.onclick = () => { closeModal(); photoFromRef(c.id, id); };
+    m.querySelector("#rv-crop").onclick = () => { closeModal(); openCropper({ src: i.data, title: "Recortar referencia", allowFull: false, onCrop: (cv) => { Store.put("images", { id: newId(), owner: i.owner, ownerId: i.ownerId, projectId: i.projectId, kind: "ref", caption: i.caption ? i.caption + " (recorte)" : "", data: canvasToData(cv), w: cv.width, h: cv.height, order: (i.order || Date.now()) + 1 }, { quiet: true }); }, onFinish: (d) => { if (d.length) { App.render(); toast("Recorte guardado como nueva referencia. La original se conserva.", { glyph: "✓" }); } } }); };
     const onKey = (e) => { if (!$("#modal").innerHTML) return document.removeEventListener("keydown", onKey); if (e.key === "ArrowRight" && list.length > 1) m.querySelector(".rv-nav.next").click(); if (e.key === "ArrowLeft" && list.length > 1) m.querySelector(".rv-nav.prev").click(); };
     document.addEventListener("keydown", onKey);
   });
@@ -1849,22 +1866,93 @@ function photoFromRef(cid, imgId) {
 /* ---------- Motor de avatar: imagen propia ---------- */
 const Photo = {
   async full(cfg, emo) { const id = (emo && cfg.emo && cfg.emo[emo]) || cfg.img; const r = Img.get(id) || Img.get(cfg.img); if (!r) throw new Error("noimg"); const im = await loadImg(r.data); const cv = document.createElement("canvas"); cv.width = im.width; cv.height = im.height; cv.getContext("2d").drawImage(im, 0, 0); return cv; },
-  head(full, cfg, size = 160, bg) {
-    const cr = cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }; const side = Math.min(full.width, full.height) / Math.max(1, cr.z);
+  head(full, cfg, size = 160, bg, emo) {
+    const own = emo && cfg.emo && cfg.emo[emo] && Img.get(cfg.emo[emo]);
+    const cr = own ? (cfg.emoCrop && cfg.emoCrop[emo]) || { x: 0.5, y: 0.5, z: 1 } : cfg.crop || { x: 0.5, y: 0.4, z: 1.2 }; const side = Math.min(full.width, full.height) / Math.max(1, cr.z);
     const sx = Math.max(0, Math.min(full.width - side, cr.x * full.width - side / 2)), sy = Math.max(0, Math.min(full.height - side, cr.y * full.height - side / 2));
     const cv = document.createElement("canvas"); cv.width = cv.height = size; const x = cv.getContext("2d"); if (bg) { x.fillStyle = bg; x.fillRect(0, 0, size, size); } x.drawImage(full, sx, sy, side, side, 0, 0, size, size); return cv;
   },
 };
 function photoPanelHTML(c, look) {
   const cfg = look.cfg; const main = Img.get(cfg.img); const cr = cfg.crop || { x: 0.5, y: 0.4, z: 1.2 };
-  const refs = Img.of("char", c.id);
-  return `<div class="avsec"><h4>Imagen principal</h4>
-      ${main ? `<div class="crop-box"><div class="crop-circle" id="crop-circle" style="background-image:url('${main.data}')"></div><div class="sliders" style="flex:1"><label>Zoom <input type="range" min="1" max="4" step="0.05" value="${cr.z}" data-crop="z"></label><label>Horizontal <input type="range" min="0" max="1" step="0.01" value="${cr.x}" data-crop="x"></label><label>Vertical <input type="range" min="0" max="1" step="0.01" value="${cr.y}" data-crop="y"></label><p class="muted" style="font-size:12px;margin:0">También puedes arrastrar dentro del círculo.</p></div></div>` : `<p class="muted" style="margin:0 0 10px">Sube una foto o ilustración que represente a ${esc(c.name)}.</p>`}
-      <div class="row" style="margin-top:10px"><label class="btn small ${main ? "" : "primary"}">${ico("upload")} ${main ? "Cambiar imagen" : "Subir imagen"}<input type="file" accept="image/*" class="sr" data-act="ph-main"></label></div>
-      ${refs.length ? `<div class="lbl">O elige una de sus referencias</div><div class="tiles sm">${refs.slice(0, 12).map((r) => `<button class="tile" data-av="ph-ref" data-v="${r.id}"><span class="tp"><img src="${r.data}" alt=""></span></button>`).join("")}</div>` : ""}
+  const refs = Img.of("char", c.id); const sheets = Img.of("char", c.id, "sheet");
+  return `<div class="avsec"><h4>Imagen principal${c.avatar.looks.length > 1 ? ` de «${esc(look.name)}»` : ""}</h4>
+      ${main ? `<div class="crop-box"><div class="crop-circle" id="crop-circle" style="background-image:url('${main.data}')"></div><div class="sliders" style="flex:1"><label>Zoom <input type="range" min="1" max="4" step="0.05" value="${cr.z}" data-crop="z"></label><label>Horizontal <input type="range" min="0" max="1" step="0.01" value="${cr.x}" data-crop="x"></label><label>Vertical <input type="range" min="0" max="1" step="0.01" value="${cr.y}" data-crop="y"></label><p class="muted" style="font-size:12px;margin:0">Así se encuadra su rostro en el círculo. También puedes arrastrar dentro.</p></div></div>` : `<p class="muted" style="margin:0 0 10px">Sube una foto o ilustración de ${esc(c.name)}. Podrás recortarla antes de usarla.</p>`}
+      <div class="row" style="margin-top:10px"><label class="btn small ${main ? "" : "primary"}">${ico("upload")} ${main ? "Cambiar imagen" : "Subir imagen"}<input type="file" accept="image/*" class="sr" data-act="ph-main"></label><button class="btn small ghost" data-av="ph-main-crop">${ico("image")} Recortar de una imagen</button></div>
+      ${refs.length ? `<div class="lbl">O usa una de sus referencias</div><div class="tiles sm">${refs.slice(0, 12).map((r) => `<button class="tile" data-av="ph-ref" data-v="${r.id}"><span class="tp"><img src="${r.data}" alt=""></span></button>`).join("")}</div>` : ""}
     </div>
-    <div class="avsec"><h4>Una imagen por emoción (opcional)</h4><p class="muted" style="font-size:12.5px;margin:-4px 0 10px">Si no subes una, se usa la principal. Usa encuadres parecidos para que el recorte coincida.</p>
-      <div class="tiles sm">${EMOS.map(([k, l]) => { const e = cfg.emo && Img.get(cfg.emo[k]); return `<label class="tile ph-emo" title="${l}"><span class="tp">${e ? `<img src="${e.data}" alt="">` : `<span class="txt" style="font-family:var(--serif);font-size:20px;color:var(--muted)">+</span>`}</span><small>${l}</small><input type="file" accept="image/*" class="sr" data-act="ph-emo" data-e="${k}">${e ? `<button type="button" class="ph-x" data-av="ph-emo-rm" data-v="${k}" aria-label="Quitar">✕</button>` : ""}</label>`; }).join("")}</div></div>`;
+    <div class="avsec"><h4>Hoja de personaje ${helpBtn("avatar.hoja")}</h4>
+      <p class="muted" style="font-size:13px;margin:-4px 0 10px">¿Tienes una sola imagen con todas sus expresiones y atuendos? Súbela una vez y recorta cada parte aquí mismo.</p>
+      ${sheets.map((sh) => `<div class="sheet-row"><img src="${sh.data}" alt="" class="sheet-th"><div class="row" style="gap:6px"><button class="btn small primary" data-av="sheet-emos" data-v="${sh.id}">Recortar expresiones</button><button class="btn small" data-av="sheet-look" data-v="${sh.id}">Recortar un atuendo</button><button class="btn small ghost" data-av="sheet-main" data-v="${sh.id}">Recortar imagen principal</button><button class="icon-btn" data-av="sheet-del" data-v="${sh.id}" aria-label="Eliminar hoja">${ico("trash")}</button></div></div>`).join("")}
+      <label class="btn small">${ico("upload")} Subir hoja de personaje<input type="file" accept="image/*" class="sr" data-act="ph-sheet"></label>
+    </div>
+    <div class="avsec"><h4>Una imagen por emoción (opcional)</h4><p class="muted" style="font-size:12.5px;margin:-4px 0 10px">Toca una emoción para subir o recortar su imagen. Cada una se encuadra por separado. Si no pones una, se usa la principal.</p>
+      <div class="tiles sm">${EMOS.map(([k, l]) => { const e = cfg.emo && Img.get(cfg.emo[k]); return `<div class="tile ph-emo" role="button" tabindex="0" data-av="ph-emo-pick" data-v="${k}" title="${l}"><span class="tp">${e ? `<img src="${e.data}" alt="">` : `<span class="txt" style="font-family:var(--serif);font-size:20px;color:var(--muted)">+</span>`}</span><small>${l}</small>${e ? `<button type="button" class="ph-x" data-av="ph-emo-rm" data-v="${k}" aria-label="Quitar">✕</button>` : ""}</div>`; }).join("")}</div></div>`;
+}
+
+/* ================= Recortador de imágenes ================= */
+async function fileToDataURL(file, maxDim = 2400, maxLen = 240000) { return (await compressTo(file, maxDim, maxLen)).data; }
+function cropCanvas(img, r, maxOut = 1100) {
+  const k = Math.min(1, maxOut / Math.max(r.w, r.h)); const cv = document.createElement("canvas"); cv.width = Math.max(1, Math.round(r.w * k)); cv.height = Math.max(1, Math.round(r.h * k));
+  const x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, r.x, r.y, r.w, r.h, 0, 0, cv.width, cv.height); return cv;
+}
+function canvasToData(cv, maxLen = 175000) { let q = 0.88, out = cv.toDataURL("image/jpeg", q); while (out.length > maxLen && q > 0.4) { q -= 0.08; out = cv.toDataURL("image/jpeg", q); } return out; }
+/* openCropper({ src, title, aspect, steps:[{key,label}], allowFull, onCrop(canvas, key), onFinish() }) */
+async function openCropper(o) {
+  const img = await loadImg(o.src); const W = img.naturalWidth || img.width, H = img.naturalHeight || img.height;
+  const steps = o.steps || [{ key: null, label: "" }]; let si = 0; let aspect = o.aspect || null;
+  let box = o.box || (() => { const s = Math.min(W, H) * (aspect ? 0.35 : 0.6); const a = aspect ? parseAspect(aspect) : W / H; const w = aspect ? s * Math.sqrt(a) : W * 0.7, h = aspect ? s / Math.sqrt(a) : H * 0.7; return { x: (W - w) / 2, y: (H - h) / 2, w, h }; })();
+  const done = [];
+  openModal(`<h2 id="cr-t"></h2><p class="muted" id="cr-sub" style="margin:-6px 0 12px;font-size:13.5px"></p>
+    <div class="cr-wrap" id="cr-wrap"><img id="cr-img" src="${o.src}" alt="" draggable="false"><div class="cr-box" id="cr-box"><i data-hd="nw"></i><i data-hd="ne"></i><i data-hd="sw"></i><i data-hd="se"></i></div></div>
+    <div class="row" style="margin-top:12px;gap:8px"><span class="lbl" style="margin:0">Forma</span><div class="chips">${[["", "Libre"], ["1:1", "Cuadrado"], ["3:4", "Retrato"], ["4:3", "Horizontal"]].map(([k, l]) => `<button type="button" class="chip" data-asp="${k}" aria-pressed="${(aspect || "") === k}">${l}</button>`).join("")}</div>${steps.length > 1 ? `<div class="cr-steps" id="cr-steps"></div>` : ""}</div>
+    <div class="foot">${steps.length > 1 ? `<button class="btn ghost" id="cr-skip">Saltar</button>` : ""}${o.allowFull ? `<button class="btn ghost" id="cr-full">Usar imagen completa</button>` : ""}<span class="spacer"></span><button class="btn ghost" id="cr-cancel">${steps.length > 1 ? "Terminar" : "Cancelar"}</button><button class="btn primary" id="cr-ok">Usar recorte</button></div>`, (m) => {
+    m.style.width = "min(980px,100%)";
+    const wrap = m.querySelector("#cr-wrap"), el = m.querySelector("#cr-box"), im = m.querySelector("#cr-img");
+    const sc = () => im.clientWidth / W;
+    const paint = () => { const k = sc(); el.style.left = im.offsetLeft + box.x * k + "px"; el.style.top = im.offsetTop + box.y * k + "px"; el.style.width = box.w * k + "px"; el.style.height = box.h * k + "px"; };
+    const head = () => { const s = steps[si]; m.querySelector("#cr-t").textContent = o.title ? (typeof o.title === "function" ? o.title(s, si) : o.title) : "Recortar imagen"; m.querySelector("#cr-sub").textContent = steps.length > 1 ? `Mueve el recuadro sobre «${s.label}» y ajusta sus esquinas. Toca Usar recorte o Saltar.` : "Arrastra el recuadro para moverlo y sus esquinas para cambiar el tamaño."; const st = m.querySelector("#cr-steps"); if (st) st.innerHTML = steps.map((x, i) => `<span class="${i < si ? (done.includes(x.key) ? "ok" : "skip") : i === si ? "cur" : ""}" title="${esc(x.label)}"></span>`).join(""); };
+    const clamp = () => { box.w = Math.max(16, Math.min(W, box.w)); box.h = Math.max(16, Math.min(H, box.h)); box.x = Math.max(0, Math.min(W - box.w, box.x)); box.y = Math.max(0, Math.min(H - box.h, box.y)); };
+    const applyAspect = () => { if (!aspect) return; const a = parseAspect(aspect); const cx = box.x + box.w / 2, cy = box.y + box.h / 2; let w = box.w, h = w / a; if (h > H) { h = H; w = h * a; } if (w > W) { w = W; h = w / a; } box = { x: cx - w / 2, y: cy - h / 2, w, h }; clamp(); };
+    im.onload = paint; new ResizeObserver(paint).observe(im); applyAspect(); paint(); head();
+    let drag = null;
+    wrap.addEventListener("pointerdown", (e) => { const hd = e.target.dataset && e.target.dataset.hd; const inBox = e.target === el || hd; if (!inBox) { const r = im.getBoundingClientRect(); const k = sc(); const px = (e.clientX - r.left) / k, py = (e.clientY - r.top) / k; box.x = px - box.w / 2; box.y = py - box.h / 2; clamp(); paint(); } wrap.setPointerCapture(e.pointerId); drag = { hd: hd || "move", x0: e.clientX, y0: e.clientY, b: { ...box } }; e.preventDefault(); });
+    wrap.addEventListener("pointermove", (e) => {
+      if (!drag) return; const k = sc(); const dx = (e.clientX - drag.x0) / k, dy = (e.clientY - drag.y0) / k; const b = drag.b;
+      if (drag.hd === "move") box = { ...b, x: b.x + dx, y: b.y + dy };
+      else { let x1 = b.x, y1 = b.y, x2 = b.x + b.w, y2 = b.y + b.h; if (drag.hd.includes("w")) x1 += dx; else x2 += dx; if (drag.hd.includes("n")) y1 += dy; else y2 += dy;
+        let w = Math.max(16, x2 - x1), h = Math.max(16, y2 - y1);
+        if (aspect) { const a = parseAspect(aspect); if (Math.abs(dx) > Math.abs(dy)) h = w / a; else w = h * a; }
+        box = { x: drag.hd.includes("w") ? b.x + b.w - w : b.x, y: drag.hd.includes("n") ? b.y + b.h - h : b.y, w, h }; }
+      clamp(); paint();
+    });
+    const end = () => (drag = null); wrap.addEventListener("pointerup", end); wrap.addEventListener("pointercancel", end);
+    m.addEventListener("click", (e) => { const a = e.target.closest("[data-asp]"); if (!a) return; aspect = a.dataset.asp || null; $$("[data-asp]", m).forEach((x) => x.setAttribute("aria-pressed", x === a)); applyAspect(); paint(); });
+    const hist = []; let learnDx = null, learnDy = null, rowStart = null;
+    const next = () => { si++; if (si >= steps.length) { closeModal(); o.onFinish && o.onFinish(done); return; }
+      const last = hist[hist.length - 1];
+      if (last) { if (rowStart == null) rowStart = last; const prev = hist[hist.length - 2];
+        if (prev) { const dx = last.x - prev.x, dy = last.y - prev.y; if (Math.abs(dy) < last.h * 0.5 && dx > last.w * 0.5) learnDx = dx; else if (dy > last.h * 0.5) { learnDy = dy - 0; rowStart = last; } } }
+      const stepX = learnDx || box.w * 1.08, stepY = learnDy || box.h * 1.08;
+      if (box.x + stepX + box.w <= W + 2) box = { ...box, x: box.x + stepX }; else if (box.y + stepY + box.h <= H + 2) box = { ...box, x: rowStart ? rowStart.x : 0, y: box.y + stepY };
+      clamp(); paint(); head(); };
+    m.querySelector("#cr-ok").onclick = async () => { const s = steps[si]; await o.onCrop(cropCanvas(img, box), s.key, { ...box }); done.push(s.key); if (hist.length && box.y - hist[hist.length - 1].y > box.h * 0.5) rowStart = { ...box }; if (!hist.length) rowStart = { ...box }; hist.push({ ...box }); if (steps.length === 1) { closeModal(); o.onFinish && o.onFinish(done); } else next(); };
+    const skip = m.querySelector("#cr-skip"); if (skip) skip.onclick = next;
+    const full = m.querySelector("#cr-full"); if (full) full.onclick = async () => { await o.onCrop(cropCanvas(img, { x: 0, y: 0, w: W, h: H }), steps[si].key, null); closeModal(); o.onFinish && o.onFinish([steps[si].key]); };
+    m.querySelector("#cr-cancel").onclick = () => { closeModal(); o.onFinish && o.onFinish(done); };
+  });
+}
+function parseAspect(a) { const [x, y] = String(a).split(":").map(Number); return x / y || 1; }
+/* Elegir una imagen del personaje para recortar */
+function openImagePicker(cid, onPick, { title = "Recortar de una imagen" } = {}) {
+  const c = Store.get("characters", cid); const look = Av.look(c) || { cfg: {} };
+  const groups = [["Hojas de personaje", Img.of("char", cid, "sheet")], ["Imagen principal", [Img.get(look.cfg.img)].filter(Boolean)], ["Referencias", Img.of("char", cid)]].filter(([, l]) => l.length);
+  openModal(`<h2>${esc(title)}</h2>${groups.length ? groups.map(([t, l]) => `<div class="lbl">${t}</div><div class="tiles">${l.map((i) => `<button class="tile" data-pick="${i.id}"><span class="tp"><img src="${i.data}" alt=""></span></button>`).join("")}</div>`).join("") : `<p class="muted">Todavía no hay imágenes de este personaje.</p>`}
+    <div class="lbl">O sube una nueva</div><label class="btn small">${ico("upload")} Subir imagen para recortar<input type="file" accept="image/*" class="sr" id="pk-file"></label>
+    <div class="foot"><span class="spacer"></span><button class="btn ghost" data-act="modal-close">Cancelar</button></div>`, (m) => {
+    m.addEventListener("click", (e) => { const b = e.target.closest("[data-pick]"); if (!b) return; const i = Img.get(b.dataset.pick); closeModal(); onPick(i.data); });
+    m.querySelector("#pk-file").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; const src = await fileToDataURL(f); closeModal(); onPick(src, f); });
+  });
 }
 
 /* ================= Fase 2.2 · Avatar ================= */
@@ -2039,14 +2127,14 @@ const Av = {
   async headUrl(c, emo, look) {
     const a = c.avatar; look = look || this.look(c); if (!look) return null;
     if (a.engine === "sprite") { const full = await Spr.render(look.cfg, emo, a.emo); return Spr.headCanvas(full, look.cfg.base, 128, "rgba(0,0,0,0)").toDataURL("image/png"); }
-    if (a.engine === "photo") { const full = await Photo.full(look.cfg, emo); return Photo.head(full, look.cfg, 256).toDataURL("image/jpeg", 0.88); }
+    if (a.engine === "photo") { const full = await Photo.full(look.cfg, emo); return Photo.head(full, look.cfg, 256, null, emo).toDataURL("image/jpeg", 0.88); }
     return DB.uri(look.cfg, emo, a.emo);
   },
   async dataUrl(c, emo, look) { const r = await this.canvas(c, emo, look); if (!r) return null; return typeof r === "string" ? r : r.toDataURL("image/png"); },
   async thumb(c) {
     const look = this.look(c); if (!look) return null; const size = 160; const bg = c.color ? shade(c.color, 0.72) : "#dde3ea";
     if (c.avatar.engine === "sprite") { const full = await Spr.render(look.cfg, "neutral", c.avatar.emo); return Spr.headCanvas(full, look.cfg.base, size, bg).toDataURL("image/jpeg", 0.86); }
-    if (c.avatar.engine === "photo") { if (!look.cfg.img) return null; const full = await Photo.full(look.cfg, "neutral"); return Photo.head(full, look.cfg, size, bg).toDataURL("image/jpeg", 0.86); }
+    if (c.avatar.engine === "photo") { if (!look.cfg.img) return null; const full = await Photo.full(look.cfg, "neutral"); return Photo.head(full, look.cfg, size, bg, "neutral").toDataURL("image/jpeg", 0.86); }
     const uri = await DB.uri(look.cfg, "neutral", c.avatar.emo);
     const im = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = uri; });
     const cv = document.createElement("canvas"); cv.width = cv.height = size; const x = cv.getContext("2d"); x.fillStyle = "#" + (look.cfg.bg || "dde3ea"); x.fillRect(0, 0, size, size); x.drawImage(im, 0, 0, size, size);
@@ -2251,6 +2339,12 @@ function mountAvatar() {
     if (k === "look-del") { confirmBox("¿Eliminar este atuendo?", "Los demás atuendos se conservan.", "Eliminar", () => { upd((c, l) => { c.avatar.looks = c.avatar.looks.filter((x) => x.id !== l.id); c.avatar.active = c.avatar.looks[0].id; }); App.render(); }); return; }
     if (k === "emo-adjust") { if (get().avatar.engine === "photo") { toast("Con Mi imagen, sube una imagen para cada emoción en el panel de la derecha."); return; } openEmoAdjust(id); return; }
     if (k === "ph-ref") { photoFromRef(id, v); setTimeout(() => App.render(), 50); return; }
+    if (k === "ph-main-crop") { openImagePicker(id, (src) => cropMain(id, src)); return; }
+    if (k === "sheet-main") { cropMain(id, Img.get(v).data); return; }
+    if (k === "sheet-emos") { cropEmotions(id, Img.get(v).data); return; }
+    if (k === "sheet-look") { cropLook(id, Img.get(v).data); return; }
+    if (k === "sheet-del") { confirmBox("¿Eliminar esta hoja?", "Los recortes que ya hiciste se conservan.", "Eliminar", () => { Store.remove("images", v); avRefresh(); }); return; }
+    if (k === "ph-emo-pick") { if (e.target.closest(".ph-x")) return; openEmoChooser(id, v); return; }
     if (k === "ph-emo-rm") { e.preventDefault(); upd((c, l) => { const old = l.cfg.emo && l.cfg.emo[v]; l.cfg.emo = { ...(l.cfg.emo || {}) }; delete l.cfg.emo[v]; if (old) Store.remove("images", old); }); return; }
     if (k === "db-retry") { AvUI.err = ""; DB._core = null; DB._col = null; avRefresh(); return; }
     // sprites
@@ -2277,13 +2371,36 @@ function mountAvatar() {
   });
   page.addEventListener("change", async (e) => {
     const el = e.target;
-    if ((el.dataset.act === "ph-main" || el.dataset.act === "ph-emo") && el.files[0]) {
-      const c0 = get(); const [r] = await Img.add([el.files[0]], { owner: "char", ownerId: id, projectId: c0.projectId, kind: "avatar" }); if (!r) return;
-      if (el.dataset.act === "ph-main") upd((c, l) => { if (l.cfg.img) Store.remove("images", l.cfg.img); l.cfg.img = r.id; l.cfg.crop = { x: 0.5, y: 0.38, z: 1.35 }; });
-      else upd((c, l) => { const old = l.cfg.emo && l.cfg.emo[el.dataset.e]; if (old) Store.remove("images", old); l.cfg.emo = { ...(l.cfg.emo || {}), [el.dataset.e]: r.id }; });
-      return;
+    if (el.dataset.act === "ph-main" && el.files[0]) { const src = await fileToDataURL(el.files[0]); el.value = ""; cropMain(id, src); return; }
+    if (el.dataset.act === "ph-sheet" && el.files[0]) {
+      const c0 = get(); const src = await fileToDataURL(el.files[0], 2600, 245000); el.value = "";
+      Store.put("images", { id: newId(), owner: "char", ownerId: id, projectId: c0.projectId, kind: "sheet", caption: "", data: src, order: Date.now() }, { quiet: true });
+      avRefresh(); toast("Hoja guardada. Ahora recorta cada expresión.", { glyph: "✓" }); setTimeout(() => cropEmotions(id, src), 300); return;
     }
     if (el.dataset.avc) upd((c, l) => { l.cfg.colors = { ...(l.cfg.colors || {}), [el.dataset.avc]: el.value.replace("#", "") }; }); if (el.id === "look-name") App.render(); });
+}
+function saveAvatarImg(cid, cv) { const c = Store.get("characters", cid); return Store.put("images", { id: newId(), owner: "char", ownerId: cid, projectId: c.projectId, kind: "avatar", caption: "", data: canvasToData(cv), w: cv.width, h: cv.height, order: Date.now() }, { quiet: true }); }
+function updAv(cid, fn) { const c = JSON.parse(JSON.stringify(Store.get("characters", cid))); fn(c, Av.look(c)); avSave(c); }
+function cropMain(cid, src) {
+  openCropper({ src, title: "Imagen principal", allowFull: true, aspect: "3:4", onCrop: (cv) => { const r = saveAvatarImg(cid, cv); updAv(cid, (c, l) => { if (l.cfg.img) Store.remove("images", l.cfg.img); l.cfg.img = r.id; l.cfg.crop = { x: 0.5, y: 0.32, z: 1.5 }; }); }, onFinish: (d) => d.length && toast("Imagen principal lista. Ajusta el encuadre del rostro si hace falta.", { glyph: "✓" }) });
+}
+function cropEmotions(cid, src, only) {
+  const steps = EMOS.filter(([k]) => !only || k === only).map(([k, l]) => ({ key: k, label: l }));
+  openCropper({ src, aspect: "1:1", steps, title: (s, i) => steps.length > 1 ? `Recorta: ${s.label} (${i + 1} de ${steps.length})` : `Recorta: ${s.label}`,
+    onCrop: (cv, key) => { const r = saveAvatarImg(cid, cv); updAv(cid, (c, l) => { const old = l.cfg.emo && l.cfg.emo[key]; if (old) Store.remove("images", old); l.cfg.emo = { ...(l.cfg.emo || {}), [key]: r.id }; l.cfg.emoCrop = { ...(l.cfg.emoCrop || {}), [key]: { x: 0.5, y: 0.5, z: 1 } }; if (!l.cfg.img) { l.cfg.img = r.id; l.cfg.crop = { x: 0.5, y: 0.5, z: 1 }; } }); },
+    onFinish: (d) => { avRefresh(); if (d.length) toast(d.length === 1 ? "Expresión recortada" : `${d.length} expresiones recortadas`, { glyph: "✓" }); } });
+}
+function cropLook(cid, src) {
+  openCropper({ src, aspect: "3:4", title: "Recorta un atuendo", onCrop: (cv) => { const r = saveAvatarImg(cid, cv); updAv(cid, (c, l) => { const n = newLook("photo", `Atuendo ${c.avatar.looks.length + 1}`); n.cfg.img = r.id; n.cfg.crop = { ...(l.cfg.crop || { x: 0.5, y: 0.32, z: 1.5 }) }; n.cfg.emo = { ...(l.cfg.emo || {}) }; n.cfg.emoCrop = { ...(l.cfg.emoCrop || {}) }; c.avatar.looks.push(n); c.avatar.active = n.id; }); },
+    onFinish: (d) => { if (d.length) { App.render(); toast("Nuevo atuendo creado. Cámbiale el nombre abajo del retrato.", { glyph: "✦" }); } } });
+}
+function openEmoChooser(cid, emo) {
+  openModal(`<h2>Imagen para «${EMO_LABEL[emo]}»</h2><p class="muted" style="margin:-6px 0 14px">Súbela o recórtala de una hoja o referencia. Se encuadra por separado.</p>
+    <div class="row"><label class="btn primary">${ico("upload")} Subir imagen<input type="file" accept="image/*" class="sr" id="ec-file"></label><button class="btn" id="ec-crop">${ico("image")} Recortar de una imagen</button></div>
+    <div class="foot"><span class="spacer"></span><button class="btn ghost" data-act="modal-close">Cancelar</button></div>`, (m) => {
+    m.querySelector("#ec-file").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; const src = await fileToDataURL(f); closeModal(); cropEmotions(cid, src, emo); });
+    m.querySelector("#ec-crop").onclick = () => { closeModal(); openImagePicker(cid, (src) => cropEmotions(cid, src, emo), { title: `Recortar «${EMO_LABEL[emo]}» de una imagen` }); };
+  });
 }
 function paintCrop(el, cr) { const img = el._img; if (!img) return; const ar = img.width / img.height; const sz = ar >= 1 ? [cr.z * 100 * ar, cr.z * 100] : [cr.z * 100, cr.z * 100 / ar]; el.style.backgroundSize = `${sz[0]}% ${sz[1]}%`; const vis = Math.min(img.width, img.height) / cr.z; const maxX = img.width - vis, maxY = img.height - vis; const sx = Math.max(0, Math.min(maxX, cr.x * img.width - vis / 2)), sy = Math.max(0, Math.min(maxY, cr.y * img.height - vis / 2)); el.style.backgroundPosition = `${maxX > 0 ? (sx / maxX) * 100 : 50}% ${maxY > 0 ? (sy / maxY) * 100 : 50}%`; }
 function mountCrop(cid) {
@@ -2694,6 +2811,7 @@ const HELP = {
   "pers.versiones": { t: "Versiones", b: "Cuando traes un personaje a una secuela, INK crea una nueva versión ligada a la original. Así puedes cambiarle la edad, la ropa o la personalidad sin perder quién era antes, y comparar ambas en «Antes y ahora»." },
   "pers.referencias": { t: "Referencias", b: "Imágenes que te ayudan a imaginarlo: alguien que se le parece, su ropa, su casa, objetos importantes. Toca una para escribirle una nota o usarla como avatar." },
   "avatar.motores": { t: "Formas de crear un avatar", items: [["Sprites anime", "Ilustración estilo novela visual con tus sprites de Sutemo: tres bases, peinados, atuendos y expresiones."], ["DiceBear", "Seis estilos ilustrados con tonos de piel diversos. Necesita internet para diseñar."], ["Mi imagen", "Tu propia foto o ilustración de referencia. Encuadras el rostro y puedes subir una imagen por emoción."]] },
+  "avatar.hoja": { t: "Hoja de personaje", b: "Si tienes una sola imagen con todas sus expresiones y atuendos, súbela aquí. INK la guarda y te guía para recortar cada expresión, una por una: mueve el recuadro sobre la cara, ajusta las esquinas y toca Usar recorte. El recuadro avanza solo a la siguiente posición. También puedes recortar de ahí la imagen principal o un atuendo nuevo." },
   "avatar.atuendos": { t: "Atuendos", b: "Cada atuendo guarda su propia ropa, peinado y colores. «Nuevo» copia el actual para que solo cambies lo necesario: en casa, en el trabajo, en batalla." },
   "avatar.emociones": { t: "Emociones", b: "Las diez emociones del personaje. Toca una para verla en grande. Las usas en el panel de personajes en escena y aparecen en la hoja PDF." },
   "escena.panel": { t: "Personajes en escena", items: [["En escena", "Está presente físicamente. Rostro a color."], ["Mención", "Se habla de él, pero no está. Rostro atenuado."], ["Pensamiento", "Está en la mente de alguien. Borde punteado, como un eco."]], b: "INK detecta nombres y apodos en el texto y te pregunta; nunca agrega a nadie solo. Si separas escenas con una línea * * *, cada escena tiene su propio elenco. En un diálogo con raya, se ilumina quien habla." },
